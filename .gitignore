@@ -1,0 +1,8 @@
+*.jpg
+*.png
+*.svg
+*.pt
+*.pth
+*.pickle
+*/ckpt/*
+*__pycache__*
