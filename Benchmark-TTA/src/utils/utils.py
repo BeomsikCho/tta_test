@@ -151,7 +151,7 @@ def get_accuracy(model: torch.nn.Module,
     return accuracy
 
 
-
+import pandas as pd
 def get_accuracy_with_figure(
     model: torch.nn.Module,
     data_loader: torch.utils.data.DataLoader,
