@@ -1,0 +1,11 @@
+python3 visualize_PCA_class_resnet50_imagenet-c.py
+python3 visualize_PCA_class_resnet50_gn_imagenet-c.py
+python3 visualize_PCA_class_vit-b_imagenet-c.py
+
+python visualize_PCA_domain_resnet50_imagenet-c.py
+python visualize_PCA_domain_resnet50_gn_imagenet-c.py
+python visualize_PCA_domain_vit-b_imagenet-c.py
+
+python visualize_PCA_resnet50_imagenet-c.py
+python visualize_PCA_resnet50_gn_imagenet-c.py
+python visualize_PCA_vit-b_imagenet-c.py

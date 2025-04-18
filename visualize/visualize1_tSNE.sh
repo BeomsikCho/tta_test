@@ -1,0 +1,11 @@
+python3 visualize_tSNE_class_resnet50_imagenet-c.py
+python3 visualize_tSNE_class_resnet50_gn_imagenet-c.py
+python3 visualize_tSNE_class_vit-b_imagenet-c.py
+
+python3 visualize_tSNE_domain_resnet50_imagenet-c.py
+python3 visualize_tSNE_domain_resnet50_gn_imagenet-c.py
+python3 visualize_tSNE_domain_vit-b_imagenet-c.py
+
+python3 visualize_tSNE_resnet50_imagenet-c.py
+python3 visualize_tSNE_resnet50_gn_imagenet-c.py
+python3 visualize_tSNE_vit-b_imagenet-c.py
