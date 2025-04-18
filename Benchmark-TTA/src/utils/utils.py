@@ -155,14 +155,24 @@ def get_accuracy(model: torch.nn.Module,
 def get_accuracy_with_figure(
     model: torch.nn.Module,
     data_loader: torch.utils.data.DataLoader,
+    domain_name: str,                         # ex) "glass_blur"
+    severity: int | str,                      # ex) 5
+    save_dir: Path | str,                     # ex) Path("./results")
     device: Optional[torch.device] = None,
-    save_name: Optional[Path] = None,
     make_plots: bool = True
 ):
+    """
+    · 전체 accuracy 계산
+    · Figure 1: 배치별 평균 정확도 (선 그래프, 0~100 %, 4×4 inch, 500 DPI)
+    · Figure 2: pseudo‑label 분포 (scatter)
+    · Figure 3: ground‑truth 분포 (scatter)
+    · CSV: iteration, predicted_class, ground_truth_class 저장
+    """
     if device is None:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device).eval()
 
+    # ---------- 통계 ----------
     total_correct, total_seen = 0, 0
     batch_accs: list[float] = []
     all_preds: list[int] = []
@@ -193,18 +203,17 @@ def get_accuracy_with_figure(
 
     accuracy = total_correct / total_seen
 
-    # -------------- 그림 ----------------
-    if make_plots and save_name is not None:
-        save_name = Path(save_name)
-        save_name.parent.mkdir(parents=True, exist_ok=True)
+    # ---------- 저장 경로 ----------
+    save_dir = Path(save_dir)
+    target_dir = save_dir / f"{domain_name}{severity}"
+    target_dir.mkdir(parents=True, exist_ok=True)
 
-        title = getattr(data_loader, "name", "undefined_loader")
+    FIGSIZE = (4, 4)
+    DPI = 500
+    title = getattr(data_loader, "name", "undefined_loader")
 
-        # 공통 옵션
-        FIGSIZE = (4, 4)   # 📌 정방형
-        DPI     = 500      # 📌 고해상도
-
-        # (1) 배치별 평균 정확도 ------------------
+    if make_plots:
+        # (1) 배치별 평균 정확도 -------------------
         fig1, ax1 = plt.subplots(figsize=FIGSIZE)
         ax1.plot(np.arange(len(batch_accs)),
                  np.array(batch_accs) * 100.0,
@@ -214,31 +223,36 @@ def get_accuracy_with_figure(
         ax1.set_xlabel("Online Batch")
         ax1.set_ylabel("Average Accuracy (%)")
         fig1.tight_layout()
-        fig1.savefig(save_name.parent / f"{save_name.stem}-accuracy_transition.jpg",
-                     dpi=DPI)                     # 📌
+        fig1.savefig(target_dir / "accuracy_transition.jpg", dpi=DPI)
         plt.close(fig1)
 
-        # (2) pseudo‑label 분포 -------------------
+        # (2) pseudo‑label 분포 --------------------
         fig2, ax2 = plt.subplots(figsize=FIGSIZE)
         ax2.scatter(all_iters, all_preds, s=3, alpha=0.6)
         ax2.set_title(title)
         ax2.set_xlabel("Online Batch")
         ax2.set_ylabel("Predicted Class")
         fig2.tight_layout()
-        fig2.savefig(save_name.parent / f"{save_name.stem}-pseudo_label.jpg",
-                     dpi=DPI)                     # 📌
+        fig2.savefig(target_dir / "pseudo_label.jpg", dpi=DPI)
         plt.close(fig2)
 
-        # (3) ground‑truth(label) 분포 -------------
+        # (3) ground‑truth 분포 --------------------
         fig3, ax3 = plt.subplots(figsize=FIGSIZE)
         ax3.scatter(all_iters, all_labels, s=3, alpha=0.6, c="tab:green")
         ax3.set_title(title)
         ax3.set_xlabel("Online Batch")
         ax3.set_ylabel("Ground‑Truth Class")
         fig3.tight_layout()
-        fig3.savefig(save_name.parent / f"{save_name.stem}-ground_truth.jpg",
-                     dpi=DPI)                     # 📌
+        fig3.savefig(target_dir / "ground_truth.jpg", dpi=DPI)
         plt.close(fig3)
+
+    # ---------- CSV 저장 ----------
+    df = pd.DataFrame({
+        "iteration": all_iters,
+        "predicted_class": all_preds,
+        "ground_truth_class": all_labels
+    })
+    df.to_csv(target_dir / f"{domain_name}{severity}.csv", index=False)
 
     return accuracy
 

@@ -1,5 +1,5 @@
 METHODS=("source" "lame" "memo" "norm")
-DATASETS=("cifar10_c" "cifar_100" "officehome" "imagenet_c" "imagenet_c_vit" "imagenet_convnet")
+DATASETS=("cifar10_c" "cifar100_c" "officehome" "imagenet_c" "imagenet_c_vit" "imagenet_convnet")
 GPU_id=5
 
 for METHOD in "${METHODS[@]}"; do
