@@ -6,3 +6,4 @@
 *.pickle
 */ckpt/*
 *__pycache__*
+*.csv
