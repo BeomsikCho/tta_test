@@ -139,3 +139,29 @@ WORKERS: 4
 [25/04/18 20:45:35] [test-time.py:  107]: cifar10_c accuracy % [zoom_blur5][#samples=10000]: 86.13%
 [25/04/18 20:45:35] [test-time.py:  110]: mean accuracy: 78.92%
 [25/04/18 20:45:35] [test-time.py:   70]: resetting model
+[25/04/18 20:50:09] [test-time.py:  107]: cifar10_c accuracy % [snow5][#samples=10000]: 82.67%
+[25/04/18 20:50:09] [test-time.py:  110]: mean accuracy: 79.39%
+[25/04/18 20:50:09] [test-time.py:   70]: resetting model
+[25/04/18 20:55:03] [test-time.py:  107]: cifar10_c accuracy % [frost5][#samples=10000]: 83.71%
+[25/04/18 20:55:03] [test-time.py:  110]: mean accuracy: 79.87%
+[25/04/18 20:55:03] [test-time.py:   70]: resetting model
+[25/04/18 20:59:47] [test-time.py:  107]: cifar10_c accuracy % [fog5][#samples=10000]: 84.05%
+[25/04/18 20:59:47] [test-time.py:  110]: mean accuracy: 80.29%
+[25/04/18 20:59:47] [test-time.py:   70]: resetting model
+[25/04/18 21:02:29] [test-time.py:  107]: cifar10_c accuracy % [brightness5][#samples=10000]: 91.10%
+[25/04/18 21:02:29] [test-time.py:  110]: mean accuracy: 81.27%
+[25/04/18 21:02:29] [test-time.py:   70]: resetting model
+[25/04/18 21:07:40] [test-time.py:  107]: cifar10_c accuracy % [contrast5][#samples=10000]: 78.16%
+[25/04/18 21:07:40] [test-time.py:  110]: mean accuracy: 81.01%
+[25/04/18 21:07:40] [test-time.py:   70]: resetting model
+[25/04/18 21:12:30] [test-time.py:  107]: cifar10_c accuracy % [elastic_transform5][#samples=10000]: 77.64%
+[25/04/18 21:12:30] [test-time.py:  110]: mean accuracy: 80.75%
+[25/04/18 21:12:30] [test-time.py:   70]: resetting model
+[25/04/18 21:17:01] [test-time.py:  107]: cifar10_c accuracy % [pixelate5][#samples=10000]: 81.43%
+[25/04/18 21:17:01] [test-time.py:  110]: mean accuracy: 80.80%
+[25/04/18 21:17:01] [test-time.py:   70]: resetting model
+[25/04/18 21:21:53] [test-time.py:  107]: cifar10_c accuracy % [jpeg_compression5][#samples=10000]: 78.54%
+[25/04/18 21:21:53] [test-time.py:  110]: mean accuracy: 80.65%
+[25/04/18 21:21:53] [test-time.py:  127]: ##################################################fianl result##################################################
+[25/04/18 21:21:53] [test-time.py:  128]: total mean accuracy: 80.65%
+[25/04/18 21:21:53] [test-time.py:  135]: total run time: 1h 9m 51s

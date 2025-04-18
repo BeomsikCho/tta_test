@@ -120,3 +120,50 @@ WORKERS: 4
 [25/04/18 20:45:27] [test-time.py:   21]: Setting up test-time adaptation method: TENT
 [25/04/18 20:45:27] [test-time.py:   55]: Using the following domain sequence: ['gaussian_noise', 'shot_noise', 'impulse_noise', 'defocus_blur', 'glass_blur', 'motion_blur', 'zoom_blur', 'snow', 'frost', 'fog', 'brightness', 'contrast', 'elastic_transform', 'pixelate', 'jpeg_compression']
 [25/04/18 20:45:27] [test-time.py:   70]: resetting model
+[25/04/18 20:51:28] [test-time.py:  107]: imagenet_c accuracy % [gaussian_noise5][#samples=50000]: 52.64%
+[25/04/18 20:51:28] [test-time.py:  110]: mean accuracy: 52.64%
+[25/04/18 20:51:28] [test-time.py:   70]: resetting model
+[25/04/18 20:57:25] [test-time.py:  107]: imagenet_c accuracy % [shot_noise5][#samples=50000]: 51.88%
+[25/04/18 20:57:25] [test-time.py:  110]: mean accuracy: 52.26%
+[25/04/18 20:57:25] [test-time.py:   70]: resetting model
+[25/04/18 21:03:21] [test-time.py:  107]: imagenet_c accuracy % [impulse_noise5][#samples=50000]: 53.59%
+[25/04/18 21:03:21] [test-time.py:  110]: mean accuracy: 52.70%
+[25/04/18 21:03:21] [test-time.py:   70]: resetting model
+[25/04/18 21:09:16] [test-time.py:  107]: imagenet_c accuracy % [defocus_blur5][#samples=50000]: 52.68%
+[25/04/18 21:09:16] [test-time.py:  110]: mean accuracy: 52.70%
+[25/04/18 21:09:16] [test-time.py:   70]: resetting model
+[25/04/18 21:15:12] [test-time.py:  107]: imagenet_c accuracy % [glass_blur5][#samples=50000]: 47.84%
+[25/04/18 21:15:12] [test-time.py:  110]: mean accuracy: 51.73%
+[25/04/18 21:15:12] [test-time.py:   70]: resetting model
+[25/04/18 21:21:07] [test-time.py:  107]: imagenet_c accuracy % [motion_blur5][#samples=50000]: 56.60%
+[25/04/18 21:21:07] [test-time.py:  110]: mean accuracy: 52.54%
+[25/04/18 21:21:07] [test-time.py:   70]: resetting model
+[25/04/18 21:27:03] [test-time.py:  107]: imagenet_c accuracy % [zoom_blur5][#samples=50000]: 47.22%
+[25/04/18 21:27:03] [test-time.py:  110]: mean accuracy: 51.78%
+[25/04/18 21:27:03] [test-time.py:   70]: resetting model
+[25/04/18 21:32:59] [test-time.py:  107]: imagenet_c accuracy % [snow5][#samples=50000]: 9.22%
+[25/04/18 21:32:59] [test-time.py:  110]: mean accuracy: 46.46%
+[25/04/18 21:32:59] [test-time.py:   70]: resetting model
+[25/04/18 21:38:54] [test-time.py:  107]: imagenet_c accuracy % [frost5][#samples=50000]: 21.30%
+[25/04/18 21:38:54] [test-time.py:  110]: mean accuracy: 43.66%
+[25/04/18 21:38:54] [test-time.py:   70]: resetting model
+[25/04/18 21:44:50] [test-time.py:  107]: imagenet_c accuracy % [fog5][#samples=50000]: 67.57%
+[25/04/18 21:44:50] [test-time.py:  110]: mean accuracy: 46.05%
+[25/04/18 21:44:50] [test-time.py:   70]: resetting model
+[25/04/18 21:50:46] [test-time.py:  107]: imagenet_c accuracy % [brightness5][#samples=50000]: 73.78%
+[25/04/18 21:50:46] [test-time.py:  110]: mean accuracy: 48.57%
+[25/04/18 21:50:46] [test-time.py:   70]: resetting model
+[25/04/18 21:56:41] [test-time.py:  107]: imagenet_c accuracy % [contrast5][#samples=50000]: 67.28%
+[25/04/18 21:56:41] [test-time.py:  110]: mean accuracy: 50.13%
+[25/04/18 21:56:41] [test-time.py:   70]: resetting model
+[25/04/18 22:02:37] [test-time.py:  107]: imagenet_c accuracy % [elastic_transform5][#samples=50000]: 50.84%
+[25/04/18 22:02:37] [test-time.py:  110]: mean accuracy: 50.19%
+[25/04/18 22:02:37] [test-time.py:   70]: resetting model
+[25/04/18 22:08:32] [test-time.py:  107]: imagenet_c accuracy % [pixelate5][#samples=50000]: 66.77%
+[25/04/18 22:08:32] [test-time.py:  110]: mean accuracy: 51.37%
+[25/04/18 22:08:32] [test-time.py:   70]: resetting model
+[25/04/18 22:14:28] [test-time.py:  107]: imagenet_c accuracy % [jpeg_compression5][#samples=50000]: 64.74%
+[25/04/18 22:14:28] [test-time.py:  110]: mean accuracy: 52.26%
+[25/04/18 22:14:28] [test-time.py:  127]: ##################################################fianl result##################################################
+[25/04/18 22:14:28] [test-time.py:  128]: total mean accuracy: 52.26%
+[25/04/18 22:14:28] [test-time.py:  135]: total run time: 1h 29m 9s

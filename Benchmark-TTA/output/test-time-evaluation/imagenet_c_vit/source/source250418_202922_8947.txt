@@ -138,3 +138,32 @@ WORKERS: 4
 [25/04/18 20:46:28] [test-time.py:  107]: imagenet_c accuracy % [motion_blur5][#samples=50000]: 39.45%
 [25/04/18 20:46:28] [test-time.py:  110]: mean accuracy: 33.22%
 [25/04/18 20:46:28] [test-time.py:   72]: not resetting model
+[25/04/18 20:49:18] [test-time.py:  107]: imagenet_c accuracy % [zoom_blur5][#samples=50000]: 31.55%
+[25/04/18 20:49:18] [test-time.py:  110]: mean accuracy: 32.98%
+[25/04/18 20:49:18] [test-time.py:   72]: not resetting model
+[25/04/18 20:52:08] [test-time.py:  107]: imagenet_c accuracy % [snow5][#samples=50000]: 24.47%
+[25/04/18 20:52:08] [test-time.py:  110]: mean accuracy: 31.92%
+[25/04/18 20:52:08] [test-time.py:   72]: not resetting model
+[25/04/18 20:54:57] [test-time.py:  107]: imagenet_c accuracy % [frost5][#samples=50000]: 30.13%
+[25/04/18 20:54:57] [test-time.py:  110]: mean accuracy: 31.72%
+[25/04/18 20:54:57] [test-time.py:   72]: not resetting model
+[25/04/18 20:57:47] [test-time.py:  107]: imagenet_c accuracy % [fog5][#samples=50000]: 54.74%
+[25/04/18 20:57:47] [test-time.py:  110]: mean accuracy: 34.02%
+[25/04/18 20:57:47] [test-time.py:   72]: not resetting model
+[25/04/18 21:00:37] [test-time.py:  107]: imagenet_c accuracy % [brightness5][#samples=50000]: 64.48%
+[25/04/18 21:00:37] [test-time.py:  110]: mean accuracy: 36.79%
+[25/04/18 21:00:37] [test-time.py:   72]: not resetting model
+[25/04/18 21:03:27] [test-time.py:  107]: imagenet_c accuracy % [contrast5][#samples=50000]: 48.98%
+[25/04/18 21:03:27] [test-time.py:  110]: mean accuracy: 37.80%
+[25/04/18 21:03:27] [test-time.py:   72]: not resetting model
+[25/04/18 21:06:17] [test-time.py:  107]: imagenet_c accuracy % [elastic_transform5][#samples=50000]: 34.20%
+[25/04/18 21:06:17] [test-time.py:  110]: mean accuracy: 37.53%
+[25/04/18 21:06:17] [test-time.py:   72]: not resetting model
+[25/04/18 21:09:07] [test-time.py:  107]: imagenet_c accuracy % [pixelate5][#samples=50000]: 53.17%
+[25/04/18 21:09:07] [test-time.py:  110]: mean accuracy: 38.64%
+[25/04/18 21:09:07] [test-time.py:   72]: not resetting model
+[25/04/18 21:11:57] [test-time.py:  107]: imagenet_c accuracy % [jpeg_compression5][#samples=50000]: 56.45%
+[25/04/18 21:11:57] [test-time.py:  110]: mean accuracy: 39.83%
+[25/04/18 21:11:57] [test-time.py:  127]: ##################################################fianl result##################################################
+[25/04/18 21:11:57] [test-time.py:  128]: total mean accuracy: 39.83%
+[25/04/18 21:11:57] [test-time.py:  135]: total run time: 0h 42m 35s
