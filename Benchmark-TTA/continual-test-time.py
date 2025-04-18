@@ -85,7 +85,7 @@ def evaluate(cfg):
                 log_path = Path(cfg.OUTPUT) / cfg.LOG_DEST
                 log_dir = log_path.with_suffix("")
                 log_dir.mkdir(parents=True, exist_ok=True)
-                fig_path = log_dir / f"{domain_name}{severity}.jpg"
+                fig_path = log_dir / f"{domain_name}{severity}"
 
                 test_loader.name = f"{cfg.CORRUPTION.DATASET}-{domain_name}{severity}"
                 
