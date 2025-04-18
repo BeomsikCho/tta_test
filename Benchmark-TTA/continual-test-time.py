@@ -93,6 +93,8 @@ def evaluate(cfg):
                 acc = get_accuracy_with_figure(
                     model=model,
                     data_loader=test_loader,
+                    domain_name = domain_name,
+                    severity = severity,
                     save_name=fig_path,
                     make_plots=True)
                 if cfg.TEST.EPOCH > 1:
