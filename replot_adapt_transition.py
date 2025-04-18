@@ -87,9 +87,13 @@ def reproduce_from_csv(
 
 
 if __name__ == "__main__":
+    save_dir = "./Benchmark-TTA/output/cifar10_c/tent250418_193705_60767"
+    domain_names = ["gaussian_noise", "shot_noise", "impulse_noise", "defocus_blur", "glass_blur", "motion_sblur", "zoom_blur", "snow", "frost", "fog", "brightness", "contrast", "elastic_transform", "pixelate", "jpeg_compression"]
+    severity = [5] * len(domain_names)
+
     reproduce_from_csv(
-        save_dir="./Benchmark-TTA/output/cifar10_c/tent250418_193705_60767",
-        domain_names=["gaussian_noise", "shot_noise", "impulse_noise", "defocus_blur", "glass_blur", "motion_sblur", "zoom_blur", "snow", "frost", "fog", "brightness", "contrast", "elastic_transform", "pixelate", "jpeg_compression"],
-        severities=[5],
+        save_dir=save_dir,
+        domain_names=domain_names,
+        severities=severity,
         output_name="mixed_domains_timeline.jpg"
     )
