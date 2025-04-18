@@ -1,5 +1,5 @@
-[25/04/18 19:29:50] [conf.py:  360]: PyTorch Version: torch=2.5.1+cu121, cuda=12.1, cudnn=90100
-[25/04/18 19:29:50] [test-time.py:  119]: ADACONTRAST:
+[25/04/18 19:32:13] [conf.py:  360]: PyTorch Version: torch=2.5.1+cu121, cuda=12.1, cudnn=90100
+[25/04/18 19:32:13] [test-time.py:  119]: ADACONTRAST:
   ALPHA: 1.0
   BETA: 1.0
   CE_SUP_TYPE: weak_strong
@@ -13,22 +13,22 @@
 BN:
   ALPHA: 0.1
 CKPT_DIR: ./ckpt/
-CKPT_PATH: 
+CKPT_PATH: ./ckpt/domainnet126/best_real_2020.pth
 CONTRAST:
   MODE: all
   PROJECTION_DIM: 128
   TEMPERATURE: 0.1
 CORRUPTION:
-  DATASET: imagenet_c
+  DATASET: officehome
   NUM_EX: -1
   SEVERITY: [5]
   SOURCE_DATASET: cifar10
-  SOURCE_DOMAIN: origin
-  SOURCE_DOMAINS: ['origin']
-  TYPE: ['gaussian_noise', 'shot_noise', 'impulse_noise', 'defocus_blur', 'glass_blur', 'motion_blur', 'zoom_blur', 'snow', 'frost', 'fog', 'brightness', 'contrast', 'elastic_transform', 'pixelate', 'jpeg_compression']
+  SOURCE_DOMAIN: Art
+  SOURCE_DOMAINS: ['Art', 'Clipart', 'Product', 'RealWorld']
+  TYPE: ['Clipart', 'Product', 'RealWorld']
 COTTA:
-  AP: 0.1
-  RST: 0.0005
+  AP: 0.92
+  RST: 0.01
 CUDNN:
   BENCHMARK: True
 DATA_DIR: /home/data/cv_datasets/domain_adaptation/classification
@@ -48,11 +48,11 @@ LAME:
   FORCE_SYMMETRY: False
   KNN: 5
   SIGMA: 1.0
-LOG_DEST: cotta250418_192950_57805.txt
-LOG_TIME: 250418_192950
+LOG_DEST: tent250418_193213_86000.txt
+LOG_TIME: 250418_193213
 MODEL:
-  ADAPTATION: cotta
-  ARCH: vit
+  ADAPTATION: tent
+  ARCH: officehome_shot
   CONTINUAL: Fully
   EPISODIC: False
   WEIGHTS: IMAGENET1K_V1
@@ -65,13 +65,13 @@ NRC:
 OPTIM:
   BETA: 0.9
   DAMPENING: 0.0
-  LR: 0.002
+  LR: 0.005
   METHOD: SGD
   MOMENTUM: 0.9
   NESTEROV: True
   STEPS: 1
   WD: 0.0
-OUTPUT: ./output/test-time-evaluation/imagenet_c_vit/cotta
+OUTPUT: ./output/test-time-evaluation/officehome/tent
 PLUE:
   CTR: True
   LABEL_REFINEMENT: True
@@ -114,9 +114,7 @@ TEST:
   N_AUGMENTATIONS: 32
   WINDOW_LENGTH: 1
 WORKERS: 4
-[25/04/18 19:29:50] [test-time.py:  123]: ##################################################evaluating domain origin##################################################
-[25/04/18 19:29:52] [_builder.py:  204]: Loading pretrained weights from Hugging Face hub (timm/vit_base_patch16_224.augreg2_in21k_ft_in1k)
-[25/04/18 19:29:52] [_hub.py:  217]: [timm/vit_base_patch16_224.augreg2_in21k_ft_in1k] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
-[25/04/18 19:29:55] [test-time.py:   21]: Setting up test-time adaptation method: COTTA
-[25/04/18 19:29:55] [test-time.py:   55]: Using the following domain sequence: ['gaussian_noise', 'shot_noise', 'impulse_noise', 'defocus_blur', 'glass_blur', 'motion_blur', 'zoom_blur', 'snow', 'frost', 'fog', 'brightness', 'contrast', 'elastic_transform', 'pixelate', 'jpeg_compression']
-[25/04/18 19:29:55] [test-time.py:   70]: resetting model
+[25/04/18 19:32:13] [test-time.py:  123]: ##################################################evaluating domain Art##################################################
+[25/04/18 19:32:16] [test-time.py:   21]: Setting up test-time adaptation method: TENT
+[25/04/18 19:32:16] [test-time.py:   55]: Using the following domain sequence: ['Clipart', 'Product', 'RealWorld']
+[25/04/18 19:32:16] [test-time.py:   70]: resetting model

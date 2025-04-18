@@ -1,5 +1,5 @@
-[25/04/18 19:29:06] [conf.py:  360]: PyTorch Version: torch=2.5.1+cu121, cuda=12.1, cudnn=90100
-[25/04/18 19:29:06] [test-time.py:  119]: ADACONTRAST:
+[25/04/18 19:31:52] [conf.py:  360]: PyTorch Version: torch=2.5.1+cu121, cuda=12.1, cudnn=90100
+[25/04/18 19:31:52] [test-time.py:  119]: ADACONTRAST:
   ALPHA: 1.0
   BETA: 1.0
   CE_SUP_TYPE: weak_strong
@@ -48,8 +48,8 @@ LAME:
   FORCE_SYMMETRY: False
   KNN: 5
   SIGMA: 1.0
-LOG_DEST: source250418_192906_16509.txt
-LOG_TIME: 250418_192906
+LOG_DEST: source250418_193152_34347.txt
+LOG_TIME: 250418_193152
 MODEL:
   ADAPTATION: source
   ARCH: WideResNet
@@ -114,7 +114,7 @@ TEST:
   N_AUGMENTATIONS: 32
   WINDOW_LENGTH: 1
 WORKERS: 4
-[25/04/18 19:29:06] [test-time.py:  123]: ##################################################evaluating domain origin##################################################
-[25/04/18 19:29:09] [test-time.py:   21]: Setting up test-time adaptation method: SOURCE
-[25/04/18 19:29:09] [test-time.py:   55]: Using the following domain sequence: ['gaussian_noise', 'shot_noise', 'impulse_noise', 'defocus_blur', 'glass_blur', 'motion_blur', 'zoom_blur', 'snow', 'frost', 'fog', 'brightness', 'contrast', 'elastic_transform', 'pixelate', 'jpeg_compression']
-[25/04/18 19:29:09] [test-time.py:   72]: not resetting model
+[25/04/18 19:31:52] [test-time.py:  123]: ##################################################evaluating domain origin##################################################
+[25/04/18 19:31:55] [test-time.py:   21]: Setting up test-time adaptation method: SOURCE
+[25/04/18 19:31:55] [test-time.py:   55]: Using the following domain sequence: ['gaussian_noise', 'shot_noise', 'impulse_noise', 'defocus_blur', 'glass_blur', 'motion_blur', 'zoom_blur', 'snow', 'frost', 'fog', 'brightness', 'contrast', 'elastic_transform', 'pixelate', 'jpeg_compression']
+[25/04/18 19:31:55] [test-time.py:   72]: not resetting model

@@ -1,5 +1,5 @@
-[25/04/18 19:29:16] [conf.py:  360]: PyTorch Version: torch=2.5.1+cu121, cuda=12.1, cudnn=90100
-[25/04/18 19:29:16] [test-time.py:  119]: ADACONTRAST:
+[25/04/18 19:32:14] [conf.py:  360]: PyTorch Version: torch=2.5.1+cu121, cuda=12.1, cudnn=90100
+[25/04/18 19:32:14] [test-time.py:  119]: ADACONTRAST:
   ALPHA: 1.0
   BETA: 1.0
   CE_SUP_TYPE: weak_strong
@@ -19,15 +19,15 @@ CONTRAST:
   PROJECTION_DIM: 128
   TEMPERATURE: 0.1
 CORRUPTION:
-  DATASET: cifar100_c
+  DATASET: officehome
   NUM_EX: -1
   SEVERITY: [5]
   SOURCE_DATASET: cifar10
-  SOURCE_DOMAIN: origin
-  SOURCE_DOMAINS: ['origin']
-  TYPE: ['gaussian_noise', 'shot_noise', 'impulse_noise', 'defocus_blur', 'glass_blur', 'motion_blur', 'zoom_blur', 'snow', 'frost', 'fog', 'brightness', 'contrast', 'elastic_transform', 'pixelate', 'jpeg_compression']
+  SOURCE_DOMAIN: Art
+  SOURCE_DOMAINS: ['Art', 'Clipart', 'Product', 'RealWorld']
+  TYPE: ['Clipart', 'Product', 'RealWorld']
 COTTA:
-  AP: 0.92
+  AP: 0.1
   RST: 0.01
 CUDNN:
   BENCHMARK: True
@@ -48,11 +48,11 @@ LAME:
   FORCE_SYMMETRY: False
   KNN: 5
   SIGMA: 1.0
-LOG_DEST: tent250418_192916_57204.txt
-LOG_TIME: 250418_192916
+LOG_DEST: cotta250418_193214_34995.txt
+LOG_TIME: 250418_193214
 MODEL:
-  ADAPTATION: tent
-  ARCH: Hendrycks2020AugMix_ResNeXt
+  ADAPTATION: cotta
+  ARCH: officehome_shot
   CONTINUAL: Fully
   EPISODIC: False
   WEIGHTS: IMAGENET1K_V1
@@ -65,13 +65,13 @@ NRC:
 OPTIM:
   BETA: 0.9
   DAMPENING: 0.0
-  LR: 0.0005
-  METHOD: Adam
+  LR: 0.1
+  METHOD: SGD
   MOMENTUM: 0.9
   NESTEROV: True
   STEPS: 1
   WD: 0.0
-OUTPUT: ./output/test-time-evaluation/cifar100_c/tent
+OUTPUT: ./output/test-time-evaluation/officehome/cotta
 PLUE:
   CTR: True
   LABEL_REFINEMENT: True
@@ -114,7 +114,7 @@ TEST:
   N_AUGMENTATIONS: 32
   WINDOW_LENGTH: 1
 WORKERS: 4
-[25/04/18 19:29:16] [test-time.py:  123]: ##################################################evaluating domain origin##################################################
-[25/04/18 19:29:19] [test-time.py:   21]: Setting up test-time adaptation method: TENT
-[25/04/18 19:29:19] [test-time.py:   55]: Using the following domain sequence: ['gaussian_noise', 'shot_noise', 'impulse_noise', 'defocus_blur', 'glass_blur', 'motion_blur', 'zoom_blur', 'snow', 'frost', 'fog', 'brightness', 'contrast', 'elastic_transform', 'pixelate', 'jpeg_compression']
-[25/04/18 19:29:19] [test-time.py:   70]: resetting model
+[25/04/18 19:32:14] [test-time.py:  123]: ##################################################evaluating domain Art##################################################
+[25/04/18 19:32:17] [test-time.py:   21]: Setting up test-time adaptation method: COTTA
+[25/04/18 19:32:17] [test-time.py:   55]: Using the following domain sequence: ['Clipart', 'Product', 'RealWorld']
+[25/04/18 19:32:17] [test-time.py:   70]: resetting model

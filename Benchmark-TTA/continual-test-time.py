@@ -95,7 +95,7 @@ def evaluate(cfg):
                     data_loader=test_loader,
                     domain_name = domain_name,
                     severity = severity,
-                    save_name=fig_path,
+                    save_dir=fig_path,
                     make_plots=True)
                 if cfg.TEST.EPOCH > 1:
                     print(f"epoch: {epoch}, acc: {acc:.2%}")

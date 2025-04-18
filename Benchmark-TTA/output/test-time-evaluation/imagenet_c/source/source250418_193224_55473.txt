@@ -1,5 +1,5 @@
-[25/04/18 19:30:34] [conf.py:  360]: PyTorch Version: torch=2.5.1+cu121, cuda=12.1, cudnn=90100
-[25/04/18 19:30:34] [test-time.py:  119]: ADACONTRAST:
+[25/04/18 19:32:24] [conf.py:  360]: PyTorch Version: torch=2.5.1+cu121, cuda=12.1, cudnn=90100
+[25/04/18 19:32:24] [test-time.py:  119]: ADACONTRAST:
   ALPHA: 1.0
   BETA: 1.0
   CE_SUP_TYPE: weak_strong
@@ -19,13 +19,13 @@ CONTRAST:
   PROJECTION_DIM: 128
   TEMPERATURE: 0.1
 CORRUPTION:
-  DATASET: officehome
+  DATASET: imagenet_c
   NUM_EX: -1
   SEVERITY: [5]
   SOURCE_DATASET: cifar10
-  SOURCE_DOMAIN: Art
-  SOURCE_DOMAINS: ['Art', 'Clipart', 'Product', 'RealWorld']
-  TYPE: ['Clipart', 'Product', 'RealWorld']
+  SOURCE_DOMAIN: origin
+  SOURCE_DOMAINS: ['origin']
+  TYPE: ['gaussian_noise', 'shot_noise', 'impulse_noise', 'defocus_blur', 'glass_blur', 'motion_blur', 'zoom_blur', 'snow', 'frost', 'fog', 'brightness', 'contrast', 'elastic_transform', 'pixelate', 'jpeg_compression']
 COTTA:
   AP: 0.92
   RST: 0.01
@@ -44,15 +44,15 @@ GTTA:
   STEPS_ADAIN: 1
   USE_STYLE_TRANSFER: False
 LAME:
-  AFFINITY: kNN
+  AFFINITY: rbf
   FORCE_SYMMETRY: False
-  KNN: 1
+  KNN: 5
   SIGMA: 1.0
-LOG_DEST: lame250418_193034_82559.txt
-LOG_TIME: 250418_193034
+LOG_DEST: source250418_193224_55473.txt
+LOG_TIME: 250418_193224
 MODEL:
-  ADAPTATION: lame
-  ARCH: officehome_shot
+  ADAPTATION: source
+  ARCH: resnet50
   CONTINUAL: Fully
   EPISODIC: False
   WEIGHTS: IMAGENET1K_V1
@@ -71,7 +71,7 @@ OPTIM:
   NESTEROV: True
   STEPS: 1
   WD: 0.0
-OUTPUT: ./output/test-time-evaluation/officehome/lame
+OUTPUT: ./output/test-time-evaluation/imagenet_c/source
 PLUE:
   CTR: True
   LABEL_REFINEMENT: True
@@ -114,7 +114,7 @@ TEST:
   N_AUGMENTATIONS: 32
   WINDOW_LENGTH: 1
 WORKERS: 4
-[25/04/18 19:30:34] [test-time.py:  123]: ##################################################evaluating domain Art##################################################
-[25/04/18 19:30:38] [test-time.py:   21]: Setting up test-time adaptation method: LAME
-[25/04/18 19:30:38] [test-time.py:   55]: Using the following domain sequence: ['Clipart', 'Product', 'RealWorld']
-[25/04/18 19:30:38] [test-time.py:   72]: not resetting model
+[25/04/18 19:32:24] [test-time.py:  123]: ##################################################evaluating domain origin##################################################
+[25/04/18 19:32:27] [test-time.py:   21]: Setting up test-time adaptation method: SOURCE
+[25/04/18 19:32:27] [test-time.py:   55]: Using the following domain sequence: ['gaussian_noise', 'shot_noise', 'impulse_noise', 'defocus_blur', 'glass_blur', 'motion_blur', 'zoom_blur', 'snow', 'frost', 'fog', 'brightness', 'contrast', 'elastic_transform', 'pixelate', 'jpeg_compression']
+[25/04/18 19:32:27] [test-time.py:   72]: not resetting model

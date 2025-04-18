@@ -1,5 +1,5 @@
-[25/04/18 19:30:34] [conf.py:  360]: PyTorch Version: torch=2.5.1+cu121, cuda=12.1, cudnn=90100
-[25/04/18 19:30:34] [test-time.py:  119]: ADACONTRAST:
+[25/04/18 19:32:03] [conf.py:  360]: PyTorch Version: torch=2.5.1+cu121, cuda=12.1, cudnn=90100
+[25/04/18 19:32:03] [test-time.py:  119]: ADACONTRAST:
   ALPHA: 1.0
   BETA: 1.0
   CE_SUP_TYPE: weak_strong
@@ -19,13 +19,13 @@ CONTRAST:
   PROJECTION_DIM: 128
   TEMPERATURE: 0.1
 CORRUPTION:
-  DATASET: officehome
+  DATASET: cifar100_c
   NUM_EX: -1
   SEVERITY: [5]
-  SOURCE_DATASET: officehome
-  SOURCE_DOMAIN: Art
-  SOURCE_DOMAINS: ['Art', 'Clipart', 'Product', 'RealWorld']
-  TYPE: ['Clipart', 'Product', 'RealWorld']
+  SOURCE_DATASET: cifar10
+  SOURCE_DOMAIN: origin
+  SOURCE_DOMAINS: ['origin']
+  TYPE: ['gaussian_noise', 'shot_noise', 'impulse_noise', 'defocus_blur', 'glass_blur', 'motion_blur', 'zoom_blur', 'snow', 'frost', 'fog', 'brightness', 'contrast', 'elastic_transform', 'pixelate', 'jpeg_compression']
 COTTA:
   AP: 0.92
   RST: 0.01
@@ -34,9 +34,9 @@ CUDNN:
 DATA_DIR: /home/data/cv_datasets/domain_adaptation/classification
 DETERMINISM: False
 EATA:
-  D_MARGIN: 0.2
+  D_MARGIN: 0.05
   E_MARGIN_COE: 0.4
-  FISHER_ALPHA: 1
+  FISHER_ALPHA: 2000
   NUM_SAMPLES: 2000
 GTTA:
   LAMBDA_MIXUP: 0.3333333333333333
@@ -48,11 +48,11 @@ LAME:
   FORCE_SYMMETRY: False
   KNN: 5
   SIGMA: 1.0
-LOG_DEST: eata250418_193034_95487.txt
-LOG_TIME: 250418_193034
+LOG_DEST: source250418_193203_46046.txt
+LOG_TIME: 250418_193203
 MODEL:
-  ADAPTATION: eata
-  ARCH: officehome_shot
+  ADAPTATION: source
+  ARCH: Hendrycks2020AugMix_ResNeXt
   CONTINUAL: Fully
   EPISODIC: False
   WEIGHTS: IMAGENET1K_V1
@@ -66,12 +66,12 @@ OPTIM:
   BETA: 0.9
   DAMPENING: 0.0
   LR: 0.001
-  METHOD: SGD
+  METHOD: Adam
   MOMENTUM: 0.9
   NESTEROV: True
   STEPS: 1
   WD: 0.0
-OUTPUT: ./output/test-time-evaluation/officehome/eata
+OUTPUT: ./output/test-time-evaluation/cifar100_c/source
 PLUE:
   CTR: True
   LABEL_REFINEMENT: True
@@ -114,7 +114,7 @@ TEST:
   N_AUGMENTATIONS: 32
   WINDOW_LENGTH: 1
 WORKERS: 4
-[25/04/18 19:30:34] [test-time.py:  123]: ##################################################evaluating domain Art##################################################
-[25/04/18 19:30:38] [test-time.py:   21]: Setting up test-time adaptation method: EATA
-[25/04/18 19:30:49] [test-time.py:   55]: Using the following domain sequence: ['Clipart', 'Product', 'RealWorld']
-[25/04/18 19:30:49] [test-time.py:   70]: resetting model
+[25/04/18 19:32:03] [test-time.py:  123]: ##################################################evaluating domain origin##################################################
+[25/04/18 19:32:06] [test-time.py:   21]: Setting up test-time adaptation method: SOURCE
+[25/04/18 19:32:06] [test-time.py:   55]: Using the following domain sequence: ['gaussian_noise', 'shot_noise', 'impulse_noise', 'defocus_blur', 'glass_blur', 'motion_blur', 'zoom_blur', 'snow', 'frost', 'fog', 'brightness', 'contrast', 'elastic_transform', 'pixelate', 'jpeg_compression']
+[25/04/18 19:32:06] [test-time.py:   72]: not resetting model
