@@ -1,0 +1,167 @@
+[25/04/18 20:08:09] [conf.py:  360]: PyTorch Version: torch=2.5.1+cu121, cuda=12.1, cudnn=90100
+[25/04/18 20:08:09] [test-time.py:  119]: ADACONTRAST:
+  ALPHA: 1.0
+  BETA: 1.0
+  CE_SUP_TYPE: weak_strong
+  CE_TYPE: standard
+  CONTRAST_TYPE: class_aware
+  DIST_TYPE: cosine
+  ETA: 1.0
+  NUM_NEIGHBORS: 10
+  QUEUE_SIZE: 16384
+  REFINE_METHOD: nearest_neighbors
+BN:
+  ALPHA: 0.1
+CKPT_DIR: ./ckpt/
+CKPT_PATH: 
+CONTRAST:
+  MODE: all
+  PROJECTION_DIM: 128
+  TEMPERATURE: 0.1
+CORRUPTION:
+  DATASET: cifar10_c
+  NUM_EX: -1
+  SEVERITY: [5]
+  SOURCE_DATASET: cifar10
+  SOURCE_DOMAIN: origin
+  SOURCE_DOMAINS: ['origin']
+  TYPE: ['gaussian_noise', 'shot_noise', 'impulse_noise', 'defocus_blur', 'glass_blur', 'motion_blur', 'zoom_blur', 'snow', 'frost', 'fog', 'brightness', 'contrast', 'elastic_transform', 'pixelate', 'jpeg_compression']
+COTTA:
+  AP: 0.92
+  RST: 0.01
+CUDNN:
+  BENCHMARK: True
+DATA_DIR: /home/data/cv_datasets/domain_adaptation/classification
+DETERMINISM: False
+EATA:
+  D_MARGIN: 0.05
+  E_MARGIN_COE: 0.4
+  FISHER_ALPHA: 2000
+  NUM_SAMPLES: 2000
+GTTA:
+  LAMBDA_MIXUP: 0.3333333333333333
+  PRETRAIN_STEPS_ADAIN: 20000
+  STEPS_ADAIN: 1
+  USE_STYLE_TRANSFER: False
+LAME:
+  AFFINITY: rbf
+  FORCE_SYMMETRY: False
+  KNN: 5
+  SIGMA: 1.0
+LOG_DEST: tent250418_200809_99398.txt
+LOG_TIME: 250418_200809
+MODEL:
+  ADAPTATION: tent
+  ARCH: WideResNet
+  CONTINUAL: Fully
+  EPISODIC: False
+  WEIGHTS: IMAGENET1K_V1
+M_TEACHER:
+  MOMENTUM: 0.999
+NRC:
+  EPSILION: 1e-05
+  K: 5
+  KK: 5
+OPTIM:
+  BETA: 0.9
+  DAMPENING: 0.0
+  LR: 0.002
+  METHOD: Adam
+  MOMENTUM: 0.9
+  NESTEROV: True
+  STEPS: 1
+  WD: 0.0
+OUTPUT: ./output/test-time-evaluation/cifar10_c/tent
+PLUE:
+  CTR: True
+  LABEL_REFINEMENT: True
+  NEG_L: True
+  NUM_NEIGHBORS: 10
+  REWEIGHTING: True
+  TEMPERATURE: 0.07
+  TEMPORAL_LENGTH: 5
+RMT:
+  LAMBDA_CE_SRC: 1.0
+  LAMBDA_CE_TRG: 1.0
+  LAMBDA_CONT: 1.0
+  NUM_SAMPLES_WARM_UP: 50000
+RNG_SEED: 2020
+ROTTA:
+  ALPHA: 0.05
+  LAMBDA_T: 1.0
+  LAMBDA_U: 1.0
+  MEMORY_SIZE: 64
+  NU: 0.001
+  UPDATE_FREQUENCY: 64
+SAR:
+  E_MARGIN_COE: 0.4
+  RESET_CONSTANT: 0.2
+SHOT:
+  CLS_PAR: 0.3
+  DISTANCE: cosine
+  ENT_PAR: 1
+  EPSILION: 1e-05
+  THRESHOLD: 0
+SOURCE:
+  NUM_WORKERS: 4
+  PERCENTAGE: 1.0
+T3A:
+  FILTER_K: 10
+TEST:
+  BATCH_SIZE: 64
+  EPOCH: 1
+  NUM_WORKERS: 4
+  N_AUGMENTATIONS: 32
+  WINDOW_LENGTH: 1
+WORKERS: 4
+[25/04/18 20:08:09] [test-time.py:  123]: ##################################################evaluating domain origin##################################################
+[25/04/18 20:08:11] [test-time.py:   21]: Setting up test-time adaptation method: TENT
+[25/04/18 20:08:11] [test-time.py:   55]: Using the following domain sequence: ['gaussian_noise', 'shot_noise', 'impulse_noise', 'defocus_blur', 'glass_blur', 'motion_blur', 'zoom_blur', 'snow', 'frost', 'fog', 'brightness', 'contrast', 'elastic_transform', 'pixelate', 'jpeg_compression']
+[25/04/18 20:08:11] [test-time.py:   70]: resetting model
+[25/04/18 20:08:26] [test-time.py:  108]: cifar10_c accuracy % [gaussian_noise5][#samples=10000]: 74.65%
+[25/04/18 20:08:26] [test-time.py:  111]: mean accuracy: 74.65%
+[25/04/18 20:08:26] [test-time.py:   70]: resetting model
+[25/04/18 20:08:38] [test-time.py:  108]: cifar10_c accuracy % [shot_noise5][#samples=10000]: 76.24%
+[25/04/18 20:08:38] [test-time.py:  111]: mean accuracy: 75.45%
+[25/04/18 20:08:38] [test-time.py:   70]: resetting model
+[25/04/18 20:08:49] [test-time.py:  108]: cifar10_c accuracy % [impulse_noise5][#samples=10000]: 65.10%
+[25/04/18 20:08:49] [test-time.py:  111]: mean accuracy: 72.00%
+[25/04/18 20:08:49] [test-time.py:   70]: resetting model
+[25/04/18 20:09:00] [test-time.py:  108]: cifar10_c accuracy % [defocus_blur5][#samples=10000]: 85.00%
+[25/04/18 20:09:00] [test-time.py:  111]: mean accuracy: 75.25%
+[25/04/18 20:09:00] [test-time.py:   70]: resetting model
+[25/04/18 20:09:11] [test-time.py:  108]: cifar10_c accuracy % [glass_blur5][#samples=10000]: 66.30%
+[25/04/18 20:09:11] [test-time.py:  111]: mean accuracy: 73.46%
+[25/04/18 20:09:11] [test-time.py:   70]: resetting model
+[25/04/18 20:09:22] [test-time.py:  108]: cifar10_c accuracy % [motion_blur5][#samples=10000]: 84.52%
+[25/04/18 20:09:22] [test-time.py:  111]: mean accuracy: 75.30%
+[25/04/18 20:09:22] [test-time.py:   70]: resetting model
+[25/04/18 20:09:33] [test-time.py:  108]: cifar10_c accuracy % [zoom_blur5][#samples=10000]: 87.05%
+[25/04/18 20:09:33] [test-time.py:  111]: mean accuracy: 76.98%
+[25/04/18 20:09:33] [test-time.py:   70]: resetting model
+[25/04/18 20:09:45] [test-time.py:  108]: cifar10_c accuracy % [snow5][#samples=10000]: 80.92%
+[25/04/18 20:09:45] [test-time.py:  111]: mean accuracy: 77.47%
+[25/04/18 20:09:45] [test-time.py:   70]: resetting model
+[25/04/18 20:09:56] [test-time.py:  108]: cifar10_c accuracy % [frost5][#samples=10000]: 80.88%
+[25/04/18 20:09:56] [test-time.py:  111]: mean accuracy: 77.85%
+[25/04/18 20:09:56] [test-time.py:   70]: resetting model
+[25/04/18 20:10:07] [test-time.py:  108]: cifar10_c accuracy % [fog5][#samples=10000]: 84.93%
+[25/04/18 20:10:07] [test-time.py:  111]: mean accuracy: 78.56%
+[25/04/18 20:10:07] [test-time.py:   70]: resetting model
+[25/04/18 20:10:18] [test-time.py:  108]: cifar10_c accuracy % [brightness5][#samples=10000]: 90.86%
+[25/04/18 20:10:18] [test-time.py:  111]: mean accuracy: 79.68%
+[25/04/18 20:10:18] [test-time.py:   70]: resetting model
+[25/04/18 20:10:30] [test-time.py:  108]: cifar10_c accuracy % [contrast5][#samples=10000]: 86.92%
+[25/04/18 20:10:30] [test-time.py:  111]: mean accuracy: 80.28%
+[25/04/18 20:10:30] [test-time.py:   70]: resetting model
+[25/04/18 20:10:42] [test-time.py:  108]: cifar10_c accuracy % [elastic_transform5][#samples=10000]: 75.37%
+[25/04/18 20:10:42] [test-time.py:  111]: mean accuracy: 79.90%
+[25/04/18 20:10:42] [test-time.py:   70]: resetting model
+[25/04/18 20:10:53] [test-time.py:  108]: cifar10_c accuracy % [pixelate5][#samples=10000]: 80.09%
+[25/04/18 20:10:53] [test-time.py:  111]: mean accuracy: 79.92%
+[25/04/18 20:10:53] [test-time.py:   70]: resetting model
+[25/04/18 20:11:04] [test-time.py:  108]: cifar10_c accuracy % [jpeg_compression5][#samples=10000]: 74.71%
+[25/04/18 20:11:04] [test-time.py:  111]: mean accuracy: 79.57%
+[25/04/18 20:11:04] [test-time.py:  128]: ##################################################fianl result##################################################
+[25/04/18 20:11:04] [test-time.py:  129]: total mean accuracy: 79.57%
+[25/04/18 20:11:04] [test-time.py:  136]: total run time: 0h 2m 55s

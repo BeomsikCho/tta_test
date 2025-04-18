@@ -86,7 +86,6 @@ def evaluate(cfg):
                 log_path = Path(cfg.OUTPUT) / cfg.LOG_DEST
                 log_dir = log_path.with_suffix("")
                 log_dir.mkdir(parents=True, exist_ok=True)
-                fig_path = log_dir / f"{domain_name}{severity}"
 
                 test_loader.name = f"{cfg.CORRUPTION.DATASET}-{domain_name}{severity}"
                 
@@ -96,7 +95,7 @@ def evaluate(cfg):
                     data_loader=test_loader,
                     domain_name = domain_name,
                     severity=severity,
-                    save_dir=fig_path,
+                    save_dir=log_dir,
                     make_plots=True)
                 if cfg.TEST.EPOCH > 1:
                     print(f"epoch: {epoch}, acc: {acc:.2%}")
