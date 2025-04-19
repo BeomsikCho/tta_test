@@ -13,7 +13,8 @@ from .memo import MEMO
 from .norm import Norm
 from .sar import SAR
 from .tent import Tent
-from .rotta import RoTTA # 내가 만든거
+from .rotta import RoTTA # 내가 만든거 1
+from .deyo import DeYO # 내가 만든거 2
 from ..models import *
 from ..utils.utils import split_up_model
 
@@ -299,6 +300,53 @@ def setup_sar(model, cfg, num_classes):
                     e_margin=math.log(num_classes) * (0.40 if cfg.SAR.E_MARGIN_COE is None else cfg.SAR.E_MARGIN_COE))
 
     return sar_model
+
+def setup_deyo(model, cfg, num_classes):
+    """
+    LOG=0
+    METHOD=deyo
+    ETHR=0.5 (deyo_margin)
+    EMAR=0.4 (deyo_margin_e0)
+    DTHR=0.3 (plpd_threshold))
+
+    넣어할 요소들
+    DEYO.MARGIN = 0.5
+    DEYO.E_MARGIN_COE = 0.4
+    DEYO.AUG_TYPE = 'occ' # ['occ', 'patch', 'pixel']
+    # AUG_TYPE == 'occ'용 셋업
+    DEYO.OCCLUSION_SIZE = 112
+    DEYO.ROW_START = 56
+    DEYO.COLUMN_START = 56
+    # AUG_TYPE == 'patch'용 셋업
+    DEYO.PATCH_LEN = 4
+    
+    DEYO.PLPD_THRESHOLD = 0.2, # MILD SETTING에서는 0.3으로 넣기도함
+    DEYO.REWEIGHT_ENT = 1,
+    DEYO.REWEIGHT_PLPD = 1
+    """
+    model = DeYO.configure_model(model)
+    params, param_names = DeYO.collect_params(model)
+    optimizer = setup_optimizer(params, cfg)
+
+    deyo_model = DeYO(
+        model = model,
+        optimizer = optimizer,
+        num_classes=num_classes,
+        steps = cfg.OPTIM.STEPS,
+        deyo_margin=math.log(num_classes) * (0.50 if cfg.DEYO.MARGIN is None else cfg.DEYO.MARGIN),
+        margin_e0=math.log(num_classes) * (0.40 if cfg.DEYO.E_MARGIN_COE is None else cfg.DEYO.E_MARGIN_COE),
+        aug_type = cfg.DEYO.AUG_TYPE,
+        occlusion_size = cfg.DEYO.OCCLUSION_SIZE,
+        row_start = cfg.DEYO.ROW_START,
+        column_start = cfg.DEYO.COLUMN_START,
+        patch_len = cfg.DEYO.PATCH_LEN,
+        plpd_threshold = cfg.DEYO.PLPD_THRESHOLD,
+        reweight_ent = cfg.DEYO.REWEIGHT_ENT,
+        reweight_plpd = cfg.DEYO.REWEIGHT_PLPD
+    )
+    
+    return deyo_model, None
+
 
 def setup_rotta(model, cfg, num_classes):
     """

@@ -1,11 +1,13 @@
 MODEL:
-  ADAPTATION: tent
+  ADAPTATION: eata
   ARCH: WideResNet
 TEST:
   BATCH_SIZE: 64
   GAMMA: 0.3
   SLOTS: 10
 CORRUPTION:
+  SOURCE_DATASET: cifar10
+  SOURCE_DOMAIN: origin
   DATASET: cifar10_c
   SEVERITY:
     - 5
@@ -29,5 +31,8 @@ OPTIM:
   METHOD: Adam
   STEPS: 1
   BETA: 0.9
-  LR: 2e-3
+  LR: 1e-3
   WD: 0.
+EATA:
+  FISHER_ALPHA: 1
+  D_MARGIN: 0.4

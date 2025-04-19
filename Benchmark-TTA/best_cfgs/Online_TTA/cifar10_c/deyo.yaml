@@ -1,11 +1,11 @@
 MODEL:
-  ADAPTATION: tent
+  ADAPTATION: deyo
   ARCH: WideResNet
 TEST:
   BATCH_SIZE: 64
-  GAMMA: 0.3
-  SLOTS: 10
 CORRUPTION:
+  SOURCE_DATASET: cifar10
+  SOURCE_DOMAIN: origin
   DATASET: cifar10_c
   SEVERITY:
     - 5
@@ -29,5 +29,19 @@ OPTIM:
   METHOD: Adam
   STEPS: 1
   BETA: 0.9
-  LR: 2e-3
+  LR: 1e-3
   WD: 0.
+DEYO:
+  MARGIN: 0.5
+  E_MARGIN_COE: 0.4
+  AUG_TYPE: 'patch' # ['occ', 'patch', 'pixel']
+  # AUG_TYPE == 'occ'용 셋업
+  OCCLUSION_SIZE: 112
+  ROW_START: 56
+  COLUMN_START: 56
+  # AUG_TYPE == 'patch'용 셋업
+  PATCH_LEN: 4
+    
+  PLPD_THRESHOLD: 0.2
+  REWEIGHT_ENT: 1
+  REWEIGHT_PLPD: 1

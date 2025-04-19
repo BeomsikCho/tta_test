@@ -1,12 +1,5 @@
-MODEL:
-  ADAPTATION: tent
-  ARCH: WideResNet
-TEST:
-  BATCH_SIZE: 64
-  GAMMA: 0.3
-  SLOTS: 10
 CORRUPTION:
-  DATASET: cifar10_c
+  DATASET: imagenet_c
   SEVERITY:
     - 5
   TYPE:
@@ -25,9 +18,24 @@ CORRUPTION:
     - elastic_transform
     - pixelate
     - jpeg_compression
+MODEL:
+  ADAPTATION: adacontrast
+  ARCH: vit
 OPTIM:
-  METHOD: Adam
+  METHOD: SGD
+  LR: 0.001
+  MOMENTUM: 0.9
+  WD: 0.0001
   STEPS: 1
-  BETA: 0.9
-  LR: 2e-3
-  WD: 0.
+  NESTEROV: True
+CONTRAST:
+  TEMPERATURE: 0.07
+TEST:
+  BATCH_SIZE: 64
+  GAMMA: 0.3
+  SLOTS: 10
+  NUM_WORKERS: 2
+  EPOCH: 10
+ADACONTRAST:
+  NUM_NEIGHBORS: 5
+  QUEUE_SIZE: 15000

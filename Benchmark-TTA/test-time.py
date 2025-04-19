@@ -41,6 +41,8 @@ def evaluate(cfg):
         model, param_names = setup_eata(base_model, cfg, num_classes)
     elif cfg.MODEL.ADAPTATION == "sar":
         model = setup_sar(base_model, cfg, num_classes)
+    elif cfg.MODEL.ADAPTATION == "deyo": # 내가 추가함
+        model, param_names = setup_deyo(base_model, cfg, num_classes)
     elif cfg.MODEL.ADAPTATION == "rotta": # 내가 추가함
         model, param_names = setup_rotta(base_model, cfg, num_classes)
     else:

@@ -1,5 +1,5 @@
 MODEL:
-  ADAPTATION: tent
+  ADAPTATION: lame
   ARCH: WideResNet
 TEST:
   BATCH_SIZE: 64
@@ -25,9 +25,6 @@ CORRUPTION:
     - elastic_transform
     - pixelate
     - jpeg_compression
-OPTIM:
-  METHOD: Adam
-  STEPS: 1
-  BETA: 0.9
-  LR: 2e-3
-  WD: 0.
+LAME:
+  KNN: 1
+  AFFINITY: kNN

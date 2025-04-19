@@ -1,14 +1,7 @@
-MODEL:
-  ADAPTATION: tent
-  ARCH: WideResNet
-TEST:
-  BATCH_SIZE: 64
-  GAMMA: 0.3
-  SLOTS: 10
 CORRUPTION:
-  DATASET: cifar10_c
+  DATASET: imagenet_c
   SEVERITY:
-    - 5
+  - 5
   TYPE:
     - gaussian_noise
     - shot_noise
@@ -25,9 +18,21 @@ CORRUPTION:
     - elastic_transform
     - pixelate
     - jpeg_compression
+MODEL:
+  ADAPTATION: memo
+  ARCH: resnet50
+  EPISODIC: True
 OPTIM:
-  METHOD: Adam
+  METHOD: SGD
   STEPS: 1
   BETA: 0.9
-  LR: 2e-3
-  WD: 0.
+  LR: 0.00005
+  WD: 0.0
+TEST:
+  BATCH_SIZE: 1
+  GAMMA: 0.3
+  SLOTS: 10
+  WINDOW_LENGTH: 1
+  N_AUGMENTATIONS: 32
+BN:
+  ALPHA: 0.1

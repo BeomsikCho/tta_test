@@ -1,0 +1,23 @@
+CORRUPTION:
+  DATASET: officehome
+  SOURCE_DOMAIN: Art
+  SOURCE_DOMAINS:
+    - Art
+    - Clipart
+    - Product
+    - RealWorld
+  SEVERITY:
+    - 5
+  TYPE:
+    - Clipart
+    - Product
+    - RealWorld
+MODEL:
+  ADAPTATION: t3a
+  ARCH: officehome_shot
+TEST:
+  BATCH_SIZE: 64
+  GAMMA: 0.3
+  SLOTS: 10
+T3A:
+  FILTER_K: 10

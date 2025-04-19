@@ -31,7 +31,16 @@ class LabelDirichletSampler(Sampler):
         # 클래스별 인덱스 테이블
         self.class_dict = {}
         for idx, item in enumerate(data_source):
-            self.class_dict.setdefault(item.label, []).append(idx)
+            if isinstance(item, DatumBase):
+                label = item.label
+            elif isinstance(item, tuple):
+                label = item[1]
+                if torch.is_tensor(label):
+                    label = label.item()
+            else:
+                raise TypeError(f"Unsupported sample type: {type(item)}")
+
+            self.class_dict.setdefault(label, []).append(idx)
 
         self.num_class = len(self.class_dict)
         self.num_slots = num_slots if num_slots is not None else min(self.num_class, 100)

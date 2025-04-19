@@ -30,8 +30,8 @@ _C.DATA_DIR = "/home/data/cv_datasets/domain_adaptation/classification"
 # Weight directory
 _C.CKPT_DIR = "./ckpt/"
 
-# Output directory
-_C.OUTPUT = "./output"
+# Output directory (내가 바꿈)
+_C.OUTPUT = "/home/data/cv_datasets/domain_adaptation/output"
 
 # Path to a specific checkpoint
 _C.CKPT_PATH = ""
@@ -239,6 +239,10 @@ _C.TEST.EPOCH = 1
 # Number of augmentations for methods relying on TTA (test time augmentation)
 _C.TEST.N_AUGMENTATIONS = 32
 
+# Practical Test Time Adaptation을 위한 option
+_C.TEST.GAMMA = 0.3
+_C.TEST.SLOTS = 10
+
 # ------------------------------- NRC options -------------------------- #
 _C.NRC = CfgNode()
 _C.NRC.K = 5
@@ -262,6 +266,20 @@ _C.PLUE.TEMPERATURE = 0.07
 _C.PLUE.LABEL_REFINEMENT = True
 _C.PLUE.NEG_L = True
 _C.PLUE.REWEIGHTING = True
+
+# --------------------------------- DeYO (bscho) options ---------------------------- #
+_C.DEYO = CfgNode()
+
+_C.DEYO.MARGIN = 0.5
+_C.DEYO.E_MARGIN_COE = 0.4
+_C.DEYO.AUG_TYPE = 'patch'
+_C.DEYO.OCCLUSION_SIZE = 112
+_C.DEYO.ROW_START = 56
+_C.DEYO.COLUMN_START = 56
+_C.DEYO.PATCH_LEN = 4
+_C.DEYO.PLPD_THRESHOLD = 0.2
+_C.DEYO.REWEIGHT_ENT = 1
+_C.DEYO.REWEIGHT_PLPD = 1
 
 # --------------------------------- ROTTA (bscho) options ---------------------------- #
 _C.ROTTA = CfgNode()

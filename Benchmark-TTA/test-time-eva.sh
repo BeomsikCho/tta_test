@@ -1,9 +1,9 @@
-DATASET="cifar100_c"     # cifar10_c cifar100_c imagenet_c domainnet126 officehome imagenet_vit imagenet_convnet imagenet_efn
-METHOD="tent"        # source norm_test memo eata cotta tent t3a norm_alpha lame adacontrast sar
+DATASET="cifar10_c"     # cifar10_c cifar100_c imagenet_c domainnet126 officehome imagenet_vit imagenet_convnet imagenet_efn
+METHOD="deyo"        # source norm_test memo eata cotta tent t3a norm_alpha lame adacontrast sar
 
 GPU_id=0
 
-for DATASET in "cifar100_c"
+for DATASET in "cifar10_c"
 do  
     echo DATASET: $DATASET
     echo METHOD: $METHOD

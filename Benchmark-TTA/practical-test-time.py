@@ -42,6 +42,8 @@ def evaluate(cfg):
         model, param_names = setup_eata(base_model, cfg, num_classes)
     elif cfg.MODEL.ADAPTATION == "sar":
         model = setup_sar(base_model, cfg, num_classes)
+    elif cfg.MODEL.ADAPTATION == "deyo": # 내가 추가함
+        model, param_names = setup_deyo(base_model, cfg, num_classes)
     elif cfg.MODEL.ADAPTATION == "rotta": # 내가 추가함
         model, param_names = setup_rotta(base_model, cfg, num_classes)
     else:
@@ -65,8 +67,12 @@ def evaluate(cfg):
     accs = []
 
     # start evaluation
-    logger.info("resetting model for init")
-    model.reset() 
+    try: 
+        logger.info("resetting model for init")
+        model.reset()
+    except:
+        pass
+    
     for i_dom, domain_name in enumerate(dom_names_loop):
         # continual test-time adaptation을 위해서 reset()부분을 없앰
         logger.info("not resetting model") # 이거 office-home이나 domain-net에서 오류날수도 있을듯?

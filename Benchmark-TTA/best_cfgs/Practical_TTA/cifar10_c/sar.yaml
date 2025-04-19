@@ -1,5 +1,5 @@
 MODEL:
-  ADAPTATION: tent
+  ADAPTATION: sar
   ARCH: WideResNet
 TEST:
   BATCH_SIZE: 64
@@ -26,8 +26,10 @@ CORRUPTION:
     - pixelate
     - jpeg_compression
 OPTIM:
-  METHOD: Adam
+  METHOD: SGD
   STEPS: 1
   BETA: 0.9
-  LR: 2e-3
+  LR: 1e-2
   WD: 0.
+SAR:
+  RESET_CONSTANT: 0.05

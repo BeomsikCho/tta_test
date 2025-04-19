@@ -182,15 +182,15 @@ def load_cifar100_c(root, corruption, level=5, batch_size=64, workers=4, transfo
 def load_cifar10(root, batch_size=64, workers=4, split="train", transforms=None):
     assert os.path.exists(root), 'CIFAR10 root path does not exist: {}'.format(root)
     if split == 'train':
-        dataset = torchvision.datasets.CIFAR10(root=root, train=True,
+        dataset = torchvision.datasets.CIFAR10(root=root, train=True, download=True,
                                                transform=torchvision.transforms.ToTensor() if transforms is None else transforms)
     elif split == 'val':
-        dataset = torchvision.datasets.CIFAR10(root=root, train=False,
+        dataset = torchvision.datasets.CIFAR10(root=root, train=False, download=True,
                                                transform=torchvision.transforms.ToTensor() if transforms is None else transforms)
     elif split == 'all':
-        dataset = torchvision.datasets.CIFAR10(root=root, train=True,
+        dataset = torchvision.datasets.CIFAR10(root=root, train=True, download=True,
                                                transform=torchvision.transforms.ToTensor() if transforms is None else transforms)
-        dataset2 = torchvision.datasets.CIFAR10(root=root, train=False,
+        dataset2 = torchvision.datasets.CIFAR10(root=root, train=False, download=True,
                                                 transform=torchvision.transforms.ToTensor() if transforms is None else transforms)
         dataset = torch.utils.data.ConcatDataset([dataset, dataset2])
     data_loader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=True,
@@ -202,15 +202,15 @@ def load_cifar10(root, batch_size=64, workers=4, split="train", transforms=None)
 def load_cifar100(root, batch_size=64, workers=4, split="train", transforms=None):
     assert os.path.exists(root), 'CIFAR100 root path does not exist: {}'.format(root)
     if split == 'train':
-        dataset = torchvision.datasets.CIFAR100(root=root, train=True,
+        dataset = torchvision.datasets.CIFAR100(root=root, train=True, download=True,
                                                 transform=torchvision.transforms.ToTensor() if transforms is None else transforms)
     elif split == 'val':
-        dataset = torchvision.datasets.CIFAR100(root=root, train=False,
+        dataset = torchvision.datasets.CIFAR100(root=root, train=False, download=True,
                                                 transform=torchvision.transforms.ToTensor() if transforms is None else transforms)
     elif split == 'all':
-        dataset = torchvision.datasets.CIFAR100(root=root, train=True,
+        dataset = torchvision.datasets.CIFAR100(root=root, train=True, download=True,
                                                 transform=torchvision.transforms.ToTensor() if transforms is None else transforms)
-        dataset2 = torchvision.datasets.CIFAR100(root=root, train=False,
+        dataset2 = torchvision.datasets.CIFAR100(root=root, train=False, download=True,
                                                  transform=torchvision.transforms.ToTensor() if transforms is None else transforms)
         dataset = torch.utils.data.ConcatDataset([dataset, dataset2])
     else:
