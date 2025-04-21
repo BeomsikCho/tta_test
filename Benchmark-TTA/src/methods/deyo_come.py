@@ -66,13 +66,13 @@ class DeYO(nn.Module):
                     outputs, backward, final_backward = self.forward_and_adapt_deyo(
                         x, self.model, self.optimizer,
                         self.deyo_margin, self.margin_e0,
-                        targets, flag, group
+                        targets, flag, group, num_classes=self.num_classes
                     )
                 else:
                     outputs = self.forward_and_adapt_deyo(
                         x, self.model, self.optimizer,
                         self.deyo_margin, self.margin_e0,
-                        targets, flag, group
+                        targets, flag, group, num_classes=self.num_classes
                     )
             if flag:
                 return outputs, backward, final_backward
@@ -84,13 +84,13 @@ class DeYO(nn.Module):
                     outputs, backward, final_backward, corr_pl_1, corr_pl_2 = self.forward_and_adapt_deyo(
                         x, self.model, self.optimizer,
                         self.deyo_margin, self.margin_e0,
-                        targets, flag, group
+                        targets, flag, group, num_classes=self.num_classes
                     )
                 else:
                     outputs = self.forward_and_adapt_deyo(
                         x, self.model, self.optimizer,
                         self.deyo_margin, self.margin_e0,
-                        targets, flag, group
+                        targets, flag, group, num_classes=self.num_classes
                     )
             if flag:
                 return outputs, backward, final_backward, corr_pl_1, corr_pl_2
@@ -153,7 +153,7 @@ class DeYO(nn.Module):
     @torch.enable_grad()
     def forward_and_adapt_deyo(
         self, x, model, optimizer,
-        deyo_margin, margin, targets=None, flag=True, group=None
+        deyo_margin, margin, targets=None, flag=True, group=None, num_classes:int = 1000
     ):
         """Forward and adapt model input data."""
         outputs = model(x)
@@ -161,7 +161,7 @@ class DeYO(nn.Module):
             return outputs
 
         optimizer.zero_grad()
-        entropys = softmax_entropy(outputs)
+        entropys = dirichlet_entropy(outputs, num_classes)
 
         # 1차 필터링 (entropy)
         filter_ids_1 = torch.where((entropys < deyo_margin))
@@ -273,6 +273,14 @@ class DeYO(nn.Module):
 def softmax_entropy(x: torch.Tensor) -> torch.Tensor:
     return -(x.softmax(1) * x.log_softmax(1)).sum(1)
 
+@torch.jit.script
+def dirichlet_entropy(x: torch.Tensor, num_classes: int):#key component of COME
+    x = x / torch.norm(x, p=2, dim=-1, keepdim=True) * torch.norm(x, p=2, dim=-1, keepdim=True).detach()
+    brief = torch.exp(x)/(torch.sum(torch.exp(x), dim=1, keepdim=True) + num_classes)
+    uncertainty = num_classes / (torch.sum(torch.exp(x), dim=1, keepdim=True) + num_classes)
+    probability = torch.cat([brief, uncertainty], dim=1) + 1e-7
+    entropy = -(probability * torch.log(probability)).sum(1)
+    return entropy
 
 def load_model_and_optimizer(model, optimizer, model_state, optimizer_state):
     model.load_state_dict(model_state, strict=True)

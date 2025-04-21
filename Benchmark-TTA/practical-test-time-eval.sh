@@ -1,5 +1,5 @@
 METHODS=("tent" "eata" "sar" "t3a" "source" "lame" "memo" "norm" "cotta" "rotta")
-DATASETS=("cifar10_c") # "cifar100_c" "officehome" "imagenet_c" "imagenet_c_vit" "imagenet_convnet")
+DATASETS=("cifar10_c" "cifar100_c" "officehome" "imagenet_c" "imagenet_c_vit" "imagenet_convnet")
 GPU_id=0
 
 for METHOD in "${METHODS[@]}"; do

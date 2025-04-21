@@ -14,7 +14,7 @@ CORRUPTION:
     - painting
     - sketch
 MODEL:
-  ADAPTATION: deyo
+  ADAPTATION: deyo_come
   ARCH: domainnet126_shot
 OPTIM:
   BETA: 0.9

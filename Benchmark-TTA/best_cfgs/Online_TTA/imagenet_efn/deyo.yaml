@@ -21,7 +21,7 @@ CORRUPTION:
     - pixelate
     - jpeg_compression
 MODEL:
-  ADAPTATION: eata
+  ADAPTATION: deyo
   ARCH: efficientnet_b0
 OPTIM:
   BETA: 0.9

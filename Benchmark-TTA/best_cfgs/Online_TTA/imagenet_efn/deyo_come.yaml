@@ -21,11 +21,11 @@ CORRUPTION:
     - pixelate
     - jpeg_compression
 MODEL:
-  ADAPTATION: deyo
-  ARCH: convnext_base
+  ADAPTATION: deyo_come
+  ARCH: efficientnet_b0
 OPTIM:
   BETA: 0.9
-  LR: 0.00005
+  LR: 0.0005
   METHOD: SGD
   STEPS: 1
   WD: 0.0
@@ -45,3 +45,4 @@ DEYO:
   REWEIGHT_PLPD: 1
 TEST:
   BATCH_SIZE: 64
+  NUM_WORKERS: 2

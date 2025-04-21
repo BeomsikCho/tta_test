@@ -17,7 +17,9 @@ from .rotta import RoTTA # 내가 만든거 1
 from .deyo import DeYO # 내가 만든거 2
 from ..models import *
 from ..utils.utils import split_up_model
-
+from .tent_come import Tent_COME
+from .eata_come import EATA_COME
+from .sar_come import SAR_COME
 
 def op_copy(optimizer):
     for param_group in optimizer.param_groups:
@@ -228,6 +230,7 @@ def setup_eata(model, cfg, num_classes):
                      episodic=cfg.MODEL.EPISODIC,
                      fishers=fishers,
                      fisher_alpha=cfg.EATA.FISHER_ALPHA,
+                     num_classes=num_classes,
                      e_margin=math.log(num_classes) * (0.40 if cfg.EATA.E_MARGIN_COE is None else cfg.EATA.E_MARGIN_COE),
                      d_margin=cfg.EATA.D_MARGIN
                      )
@@ -394,3 +397,95 @@ def setup_rotta(model, cfg, num_classes):
         update_frequency = cfg.ROTTA.UPDATE_FREQUENCY,
     )
     return rotta_model, None
+
+
+def setup_tent_come(model, cfg, num_classes):
+    model = Tent_COME.configure_model(model)
+    params, param_names = Tent_COME.collect_params(model)
+    optimizer = setup_optimizer(params, cfg)
+    tent_come_model = Tent_COME(model, optimizer,
+                      steps=cfg.OPTIM.STEPS,
+                      num_classes=num_classes,
+                      episodic=cfg.MODEL.EPISODIC,
+                      )
+    return tent_come_model, param_names
+
+
+def setup_eata_come(model, cfg, num_classes):
+    # compute fisher informatrix
+    batch_size_src = cfg.TEST.BATCH_SIZE if cfg.TEST.BATCH_SIZE > 1 else cfg.TEST.WINDOW_LENGTH
+    fisher_dataset, fisher_loader = load_dataset(dataset=cfg.CORRUPTION.SOURCE_DATASET,
+                                                 split='val' if cfg.CORRUPTION.SOURCE_DATASET == 'imagenet' else 'train',
+                                                 root=cfg.DATA_DIR, adaptation=cfg.MODEL.ADAPTATION,
+                                                 batch_size=batch_size_src,
+                                                 domain=cfg.CORRUPTION.SOURCE_DOMAIN)
+    # sub dataset
+    fisher_dataset = torch.utils.data.Subset(fisher_dataset, range(cfg.EATA.NUM_SAMPLES))
+    fisher_loader = torch.utils.data.DataLoader(fisher_dataset, batch_size=batch_size_src, shuffle=True,
+                                                num_workers=cfg.TEST.NUM_WORKERS, pin_memory=True)
+    model = EATA_COME.configure_model(model)
+    params, param_names = EATA_COME.collect_params(model)
+    ewc_optimizer = optim.SGD(params, 0.001)
+    fishers = {}
+    train_loss_fn = nn.CrossEntropyLoss().cuda()
+    for iter_, batch in enumerate(fisher_loader, start=1):
+        images = batch[0].cuda(non_blocking=True)
+        outputs = model(images)
+        _, targets = outputs.max(1)
+        loss = train_loss_fn(outputs, targets)
+        loss.backward()
+        for name, param in model.named_parameters():
+            if param.grad is not None:
+                if iter_ > 1:
+                    fisher = param.grad.data.clone().detach() ** 2 + fishers[name][0]
+                else:
+                    fisher = param.grad.data.clone().detach() ** 2
+                if iter_ == len(fisher_loader):
+                    fisher = fisher / iter_
+                fishers.update({name: [fisher, param.data.clone().detach()]})
+        ewc_optimizer.zero_grad()
+    # logger.info("compute fisher matrices finished")
+    del ewc_optimizer
+
+    optimizer = setup_optimizer(params, cfg)
+    eata_come_model = EATA_COME(model, optimizer,
+                          steps=cfg.OPTIM.STEPS,
+                          episodic=cfg.MODEL.EPISODIC,
+                          fishers=fishers,
+                          fisher_alpha=cfg.EATA.FISHER_ALPHA,
+                          e_margin=math.log(num_classes) * (0.40 if cfg.EATA.E_MARGIN_COE is None else cfg.EATA.E_MARGIN_COE),
+                          d_margin=cfg.EATA.D_MARGIN
+                          )
+
+    return eata_come_model, param_names
+
+
+def setup_sar_come(model, cfg, num_classes):
+    sar_model = SAR_COME(model, lr=cfg.OPTIM.LR, batch_size=cfg.TEST.BATCH_SIZE, steps=cfg.OPTIM.STEPS,
+                    num_classes=num_classes, episodic=cfg.MODEL.EPISODIC, reset_constant=cfg.SAR.RESET_CONSTANT,
+                    e_margin=math.log(num_classes) * (0.40 if cfg.SAR.E_MARGIN_COE is None else cfg.SAR.E_MARGIN_COE))
+    return sar_model
+
+
+def setup_deyo(model, cfg, num_classes):
+    model = DeYO_COME.configure_model(model)
+    params, param_names = DeYO_COME.collect_params(model)
+    optimizer = setup_optimizer(params, cfg)
+
+    deyo_model = DeYO_COME(
+        model = model,
+        optimizer = optimizer,
+        num_classes=num_classes,
+        steps = cfg.OPTIM.STEPS,
+        deyo_margin=math.log(num_classes) * (0.50 if cfg.DEYO.MARGIN is None else cfg.DEYO.MARGIN),
+        margin_e0=math.log(num_classes) * (0.40 if cfg.DEYO.E_MARGIN_COE is None else cfg.DEYO.E_MARGIN_COE),
+        aug_type = cfg.DEYO.AUG_TYPE,
+        occlusion_size = cfg.DEYO.OCCLUSION_SIZE,
+        row_start = cfg.DEYO.ROW_START,
+        column_start = cfg.DEYO.COLUMN_START,
+        patch_len = cfg.DEYO.PATCH_LEN,
+        plpd_threshold = cfg.DEYO.PLPD_THRESHOLD,
+        reweight_ent = cfg.DEYO.REWEIGHT_ENT,
+        reweight_plpd = cfg.DEYO.REWEIGHT_PLPD
+    )
+    return deyo_model, None

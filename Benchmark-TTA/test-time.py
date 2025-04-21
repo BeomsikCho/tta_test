@@ -41,10 +41,18 @@ def evaluate(cfg):
         model, param_names = setup_eata(base_model, cfg, num_classes)
     elif cfg.MODEL.ADAPTATION == "sar":
         model = setup_sar(base_model, cfg, num_classes)
-    elif cfg.MODEL.ADAPTATION == "deyo": # 내가 추가함
+    elif cfg.MODEL.ADAPTATION == "deyo": # 내가 추가함 (deyo)
         model, param_names = setup_deyo(base_model, cfg, num_classes)
-    elif cfg.MODEL.ADAPTATION == "rotta": # 내가 추가함
+    elif cfg.MODEL.ADAPTATION == "rotta": # 내가 추가함 (rotta)
         model, param_names = setup_rotta(base_model, cfg, num_classes)
+    elif cfg.MODEL.ADAPTATION == "tent_come": # 내가 추가함 (come)
+        model, param_names = setup_tent_come(base_model, cfg, num_classes)
+    elif cfg.MODEL.ADAPTATION == "eata_come": # 내가 추가함 (come)
+        model, param_names = setup_eata_come(base_model, cfg, num_classes)
+    elif cfg.MODEL.ADAPTATION == "sar_come": # 내가 추가함 (come)
+        model = setup_sar_come(base_model, cfg, num_classes)
+    elif cfg.MODEL.ADAPTATION == "deyo_come": # 내가 추가함 (come)
+        model = setup_deyo_come(base_model, cfg, num_classes)
     else:
         raise ValueError(f"Adaptation method '{cfg.MODEL.ADAPTATION}' is not supported!")
 

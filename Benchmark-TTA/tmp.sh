@@ -1,6 +1,6 @@
-METHODS=("source" "lame" "memo" "norm")
-DATASETS=("cifar10_c" "cifar100_c" "officehome" "imagenet_c" "imagenet_c_vit" "imagenet_convnet")
-GPU_id=5
+METHODS=("deyo" "tent_come" "eata_come" "sar_come" "deyo_come")
+DATASETS=("cifar10_c" "cifar100_c" "officehome" "imagenet_c" "imagenet_c_vit" "imagenet_c_efn" "imagenet_convnet")
+GPU_id=1
 
 for METHOD in "${METHODS[@]}"; do
   for DATASET in "${DATASETS[@]}"; do

@@ -1,9 +1,7 @@
 CORRUPTION:
   DATASET: imagenet_c
-  SOURCE_DATASET: imagenet
-  SOURCE_DOMAIN: origin
   SEVERITY:
-  - 5
+    - 5
   TYPE:
     - gaussian_noise
     - shot_noise
@@ -21,27 +19,13 @@ CORRUPTION:
     - pixelate
     - jpeg_compression
 MODEL:
-  ADAPTATION: deyo
+  ADAPTATION: tent_come
   ARCH: vit
 OPTIM:
   BETA: 0.9
-  LR: 0.002
+  LR: 0.001
   METHOD: SGD
   STEPS: 1
   WD: 0.0
-DEYO:
-  MARGIN: 0.5
-  E_MARGIN_COE: 0.4
-  AUG_TYPE: 'patch' # ['occ', 'patch', 'pixel']
-  # AUG_TYPE == 'occ'용 셋업
-  OCCLUSION_SIZE: 112
-  ROW_START: 56
-  COLUMN_START: 56
-  # AUG_TYPE == 'patch'용 셋업
-  PATCH_LEN: 4
-    
-  PLPD_THRESHOLD: 0.2
-  REWEIGHT_ENT: 1
-  REWEIGHT_PLPD: 1
 TEST:
   BATCH_SIZE: 64

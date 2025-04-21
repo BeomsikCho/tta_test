@@ -1,8 +1,6 @@
-# DATASETS=("cifar10_c" "cifar100_c" "domainnet126" "officehome" "imagenet_c" "imagenet_c_vit" "imagenet_convnet")
-
-METHODS=("cotta" "rotta")
+METHODS=("tent_come")
 DATASETS=("cifar10_c" "cifar100_c" "officehome" "imagenet_c" "imagenet_c_vit" "imagenet_convnet")
-GPU_id=6
+GPU_id=0
 
 for METHOD in "${METHODS[@]}"; do
   for DATASET in "${DATASETS[@]}"; do

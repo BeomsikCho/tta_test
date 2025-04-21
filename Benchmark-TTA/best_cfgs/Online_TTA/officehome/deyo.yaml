@@ -14,7 +14,7 @@ CORRUPTION:
     - Product
     - RealWorld
 MODEL:
-  ADAPTATION: eata
+  ADAPTATION: deyo
   ARCH: officehome_shot
 OPTIM:
   BETA: 0.9

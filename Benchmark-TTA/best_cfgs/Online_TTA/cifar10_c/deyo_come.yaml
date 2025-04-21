@@ -1,9 +1,14 @@
+MODEL:
+  ADAPTATION: deyo_come
+  ARCH: WideResNet
+TEST:
+  BATCH_SIZE: 64
 CORRUPTION:
-  DATASET: imagenet_c
-  SOURCE_DATASET: imagenet
+  SOURCE_DATASET: cifar10
   SOURCE_DOMAIN: origin
+  DATASET: cifar10_c
   SEVERITY:
-  - 5
+    - 5
   TYPE:
     - gaussian_noise
     - shot_noise
@@ -20,15 +25,12 @@ CORRUPTION:
     - elastic_transform
     - pixelate
     - jpeg_compression
-MODEL:
-  ADAPTATION: deyo
-  ARCH: convnext_base
 OPTIM:
-  BETA: 0.9
-  LR: 0.00005
-  METHOD: SGD
+  METHOD: Adam
   STEPS: 1
-  WD: 0.0
+  BETA: 0.9
+  LR: 1e-3
+  WD: 0.
 DEYO:
   MARGIN: 0.5
   E_MARGIN_COE: 0.4
@@ -43,5 +45,3 @@ DEYO:
   PLPD_THRESHOLD: 0.2
   REWEIGHT_ENT: 1
   REWEIGHT_PLPD: 1
-TEST:
-  BATCH_SIZE: 64
