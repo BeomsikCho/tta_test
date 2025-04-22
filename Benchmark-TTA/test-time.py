@@ -53,6 +53,8 @@ def evaluate(cfg):
         model = setup_sar_come(base_model, cfg, num_classes)
     elif cfg.MODEL.ADAPTATION == "deyo_come": # 내가 추가함 (come)
         model = setup_deyo_come(base_model, cfg, num_classes)
+    elif cfg.MODEL.ADAPTATION == 'memtta':
+        model, param_names = setup_memtta(base_model, cfg, num_classes)
     else:
         raise ValueError(f"Adaptation method '{cfg.MODEL.ADAPTATION}' is not supported!")
 

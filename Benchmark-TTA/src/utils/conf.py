@@ -239,9 +239,15 @@ _C.TEST.EPOCH = 1
 # Number of augmentations for methods relying on TTA (test time augmentation)
 _C.TEST.N_AUGMENTATIONS = 32
 
-# Practical Test Time Adaptation을 위한 option
+# PERSISTENT TEST TIME ADAPTATION을 위한 OPTION
+_C.TEST.LOOPS = 30
+
+# PRACTICAL TEST TIME ADAPTATION을 위한 OPTION
 _C.TEST.GAMMA = 0.3
 _C.TEST.SLOTS = 10
+
+# MIXED TEST TIME ADAPTATION을 위한 OPTION
+_C.TEST.IMBALANCE_RATIO = 16
 
 # ------------------------------- NRC options -------------------------- #
 _C.NRC = CfgNode()
@@ -290,6 +296,14 @@ _C.ROTTA.UPDATE_FREQUENCY = 64
 _C.ROTTA.LAMBDA_T = 1.0
 _C.ROTTA.LAMBDA_U = 1.0
 _C.ROTTA.ALPHA = 0.05
+
+# --------------------------------- MEMTTA (bscho: ours) options ---------------------------- #
+_C.MEMTTA = CfgNode()
+
+_C.MEMTTA.NUM_PROMPTS = 4
+_C.MEMTTA.MODEL_DIM = 512
+_C.MEMTTA.NUM_HEADS = 8
+_C.MEMTTA.ALPHA = 0.5
 
 # --------------------------------- CUDNN options --------------------------- #
 _C.CUDNN = CfgNode()

@@ -20,6 +20,8 @@ from ..utils.utils import split_up_model
 from .tent_come import Tent_COME
 from .eata_come import EATA_COME
 from .sar_come import SAR_COME
+from .deyo_come import DeYO_COME
+from .memtta import MemTTA
 
 def op_copy(optimizer):
     for param_group in optimizer.param_groups:
@@ -467,7 +469,7 @@ def setup_sar_come(model, cfg, num_classes):
     return sar_model
 
 
-def setup_deyo(model, cfg, num_classes):
+def setup_deyo_come(model, cfg, num_classes):
     model = DeYO_COME.configure_model(model)
     params, param_names = DeYO_COME.collect_params(model)
     optimizer = setup_optimizer(params, cfg)
@@ -489,3 +491,22 @@ def setup_deyo(model, cfg, num_classes):
         reweight_plpd = cfg.DEYO.REWEIGHT_PLPD
     )
     return deyo_model, None
+
+
+def setup_memtta(model, cfg, num_classes):
+    # model = MemTTA.configure_model(model, cfg.MEMTTA.NUM_PROMPTS, cfg.MEMTTA.MODEL_DIM, cfg.MEMTTA.NUM_HEADS, cfg.MEMTTA.ALPHA)
+    model = MemTTA.configure_model(model, cfg.MEMTTA.NUM_PROMPTS, cfg.MEMTTA.NUM_HEADS, cfg.MEMTTA.ALPHA)
+    breakpoint()
+    params, param_names = MemTTA.collect_params(model)
+    optimizer = setup_optimizer(params, cfg)
+
+    memtta_model = MemTTA(
+        model=model,
+        optimizer=optimizer,
+        num_prompts = cfg.MEMTTA.NUM_PROMPTS,
+        model_dim = cfg.MEMTTA.MODEL_DIM,
+        num_heads = cfg.MEMTTA.NUM_HEADS,
+        alpha = cfg.MEMTTA.ALPHA
+    )
+
+    return memtta_model, param_names

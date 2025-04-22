@@ -7,7 +7,7 @@ import numpy as np
 from einops import rearrange
 
 
-class DeYO(nn.Module):
+class DeYO_COME(nn.Module):
     """DeYO online adapts a model by entropy minimization with entropy and PLPD filtering & reweighting during testing.
     Once DeYOed, a model adapts itself by updating on every forward.
     """

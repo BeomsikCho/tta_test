@@ -1,0 +1,36 @@
+MODEL:
+  ADAPTATION: memtta
+  ARCH: WideResNet
+TEST:
+  BATCH_SIZE: 64
+CORRUPTION:
+  DATASET: cifar10_c
+  SEVERITY:
+    - 5
+  TYPE:
+    - gaussian_noise
+    - shot_noise
+    - impulse_noise
+    - defocus_blur
+    - glass_blur
+    - motion_blur
+    - zoom_blur
+    - snow
+    - frost
+    - fog
+    - brightness
+    - contrast
+    - elastic_transform
+    - pixelate
+    - jpeg_compression
+OPTIM:
+  METHOD: Adam
+  STEPS: 1
+  BETA: 0.9
+  LR: 2e-3
+  WD: 0.
+MEMTTA:
+  NUM_PROMPTS: 4
+  MODEL_DIM: 160 #512
+  NUM_HEADS: 8
+  ALPHA: 0.5

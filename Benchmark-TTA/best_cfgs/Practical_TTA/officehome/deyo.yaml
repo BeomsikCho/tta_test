@@ -1,0 +1,42 @@
+CORRUPTION:
+  DATASET: officehome
+  SOURCE_DATASET: officehome
+  SOURCE_DOMAIN: Art
+  SOURCE_DOMAINS:
+    - Art
+    - Clipart
+    - Product
+    - RealWorld
+  SEVERITY:
+    - 5
+  TYPE:
+    - Clipart
+    - Product
+    - RealWorld
+MODEL:
+  ADAPTATION: deyo
+  ARCH: officehome_shot
+OPTIM:
+  BETA: 0.9
+  LR: 0.001
+  METHOD: SGD
+  STEPS: 1
+  WD: 0.0
+DEYO:
+  MARGIN: 0.5
+  E_MARGIN_COE: 0.4
+  AUG_TYPE: 'patch' # ['occ', 'patch', 'pixel']
+  # AUG_TYPE == 'occ'용 셋업
+  OCCLUSION_SIZE: 112
+  ROW_START: 56
+  COLUMN_START: 56
+  # AUG_TYPE == 'patch'용 셋업
+  PATCH_LEN: 4
+    
+  PLPD_THRESHOLD: 0.2
+  REWEIGHT_ENT: 1
+  REWEIGHT_PLPD: 1
+TEST:
+  BATCH_SIZE: 64
+  GAMMA: 0.3
+  SLOTS: 10
