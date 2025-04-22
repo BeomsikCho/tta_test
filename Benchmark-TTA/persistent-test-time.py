@@ -78,7 +78,7 @@ def evaluate(cfg):
     # start evaluation
     logger.info("resetting model for init")
     model.reset() 
-    for loop in cfg.TEST.LOOPS:
+    for loop in range(cfg.TEST.LOOPS):
         for i_dom, domain_name in enumerate(dom_names_loop):
             # continual test-time adaptation을 위해서 reset()부분을 없앰
             logger.info("not resetting model") # 이거 office-home이나 domain-net에서 오류날수도 있을듯?

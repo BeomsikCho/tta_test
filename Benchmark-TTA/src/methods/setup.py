@@ -232,7 +232,6 @@ def setup_eata(model, cfg, num_classes):
                      episodic=cfg.MODEL.EPISODIC,
                      fishers=fishers,
                      fisher_alpha=cfg.EATA.FISHER_ALPHA,
-                     num_classes=num_classes,
                      e_margin=math.log(num_classes) * (0.40 if cfg.EATA.E_MARGIN_COE is None else cfg.EATA.E_MARGIN_COE),
                      d_margin=cfg.EATA.D_MARGIN
                      )

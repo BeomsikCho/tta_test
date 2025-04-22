@@ -5,7 +5,6 @@ METHODS=(
   "t3a"
   "source"
   "lame"
-  "memo"
   "norm"
   "cotta"
   "rotta"

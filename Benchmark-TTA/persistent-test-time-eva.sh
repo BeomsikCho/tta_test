@@ -5,7 +5,6 @@ METHODS=(
   "t3a"
   "source"
   "lame"
-  "memo"
   "norm"
   "cotta"
   "rotta"
@@ -29,8 +28,8 @@ for METHOD in "${METHODS[@]}"; do
   for DATASET in "${DATASETS[@]}"; do
     echo "DATASET: $DATASET"
     echo "METHOD: $METHOD"
-    CUDA_VISIBLE_DEVICES="$GPU_id" python practical-test-time.py \
-      --cfg best_cfgs/Practical_TTA/"${DATASET}"/"${METHOD}".yaml \
-      --output_dir "practical-test-time-evaluation/${DATASET}/${METHOD}"
+    CUDA_VISIBLE_DEVICES="$GPU_id" python persistent-test-time.py \
+      --cfg best_cfgs/Persistent_TTA/"${DATASET}"/"${METHOD}".yaml \
+      --output_dir "persistent-test-time-evaluation/${DATASET}/${METHOD}"
   done
 done
