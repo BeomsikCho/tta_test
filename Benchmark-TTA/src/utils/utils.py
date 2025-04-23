@@ -11,7 +11,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn.utils.weight_norm import WeightNorm
 
-from typing import Optional
+from typing import Optional, Union, Dict
 import matplotlib.pyplot as plt
 from pathlib import Path
 
@@ -255,6 +255,193 @@ def get_accuracy_with_figure(
     df.to_csv(target_dir / f"{domain_name}{severity}.csv", index=False)
 
     return accuracy
+
+
+def get_mixed_accuracy_with_figure(
+    model: torch.nn.Module,
+    data_loader: torch.utils.data.DataLoader,
+    save_dir: Union[Path, str],
+    device: Optional[torch.device] = None,
+    make_plots: bool = True
+) -> Dict[str, float]:
+    """
+    여러 도메인(domain)×severity가 섞여 있는 Mixed DataLoader에 대해,
+    (img, label, domain_label) 형태로 데이터를 받아서:
+      1) 도메인별 정확도 계산 + batch accuracy 추이
+      2) 전체 데이터셋에 대한 accuracy
+      3) 하나의 Figure에 도메인별 다른 색깔로 batch accuracy 그래프
+      4) 하나의 Figure에 도메인별 다른 색깔로 pseudo-label 분포 (scatter)
+      5) 하나의 Figure에 도메인별 다른 색깔로 ground-truth 분포 (scatter)
+      6) CSV 저장 (모든 샘플에 대해 iteration, pred, label, domain_label)
+
+    최종적으로 
+        acc_dict = {
+            f"{domain_label}": domain별 accuracy,
+            "all": 전체 accuracy
+        }
+    형태의 dict를 리턴한다.
+    """
+    if device is None:
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model.to(device).eval()
+
+    # 1) 도메인별 통계용 자료구조
+    #    - batch_idx 목록, batch별 accuracy, 누적 correct/seen
+    domain_info = {}  # domain_label -> dict(...)
+    
+    # 2) 전체 샘플 레벨의 정보(그래프, CSV용)
+    all_data = {
+        "iteration": [],
+        "predicted_class": [],
+        "ground_truth_class": [],
+        "domain_label": []
+    }
+
+    # ---------- (A) 배치 순회하며 도메인별 통계 수집 ----------
+    with torch.no_grad():
+        for batch_idx, batch_data in enumerate(data_loader):
+            # (imgs, labels, domain_labels) 형태를 가정
+            if len(batch_data) == 3:
+                imgs, labels, domain_labels = batch_data
+            else:
+                raise ValueError("Mixed loader batch must be (imgs, labels, domain_labels).")
+
+            # 모델 forward
+            if isinstance(imgs, list):
+                imgs = [img.to(device) for img in imgs]
+                outputs = model(imgs)
+            else:
+                outputs = model(imgs.to(device))
+            preds = outputs.argmax(dim=1)
+            labels = labels.to(device)
+
+            # 넘파이/리스트 변환
+            preds_cpu = preds.cpu().numpy()
+            labels_cpu = labels.cpu().numpy()
+            domain_labels = list(domain_labels)  # 예: ["domainA0", "domainB2", ...]
+
+            # 전체(all) 샘플 레벨 정보 누적 -> 나중에 한 장의 scatter에서 사용
+            bs = len(labels_cpu)
+            all_data["iteration"].extend([batch_idx]*bs)
+            all_data["predicted_class"].extend(preds_cpu.tolist())
+            all_data["ground_truth_class"].extend(labels_cpu.tolist())
+            all_data["domain_label"].extend(domain_labels)
+
+            # 한 배치 안에 여러 도메인이 섞여 있을 수 있으므로,
+            # 도메인별로 인덱스 그룹화해서 accuracy 집계
+            unique_doms = set(domain_labels)
+            for dlabel in unique_doms:
+                idxs = [i for i, dl in enumerate(domain_labels) if dl == dlabel]
+                count = len(idxs)
+                if count == 0:
+                    continue
+                correct_count = (preds_cpu[idxs] == labels_cpu[idxs]).sum()
+
+                # domain_info 초기화
+                if dlabel not in domain_info:
+                    domain_info[dlabel] = {
+                        "batch_idxs": [],     # 어떤 배치(전체 기준)에서 갱신되었나
+                        "batch_accs": [],     # 배치 내 도메인 서브셋 accuracy
+                        "total_correct": 0,
+                        "total_seen": 0
+                    }
+                domain_info[dlabel]["batch_idxs"].append(batch_idx)
+                domain_info[dlabel]["batch_accs"].append(correct_count / count)
+                domain_info[dlabel]["total_correct"] += correct_count
+                domain_info[dlabel]["total_seen"]    += count
+
+    # ---------- (B) 도메인별 accuracy 계산, 전체 accuracy 계산 ----------
+    total_correct_all = 0
+    total_seen_all = 0
+
+    acc_dict = {}  # 최종 반환용 (domain_label -> accuracy)
+    for dlabel, info in domain_info.items():
+        d_correct = info["total_correct"]
+        d_seen = info["total_seen"]
+        d_acc = d_correct / d_seen if d_seen > 0 else 0.0
+        acc_dict[dlabel] = d_acc
+
+        total_correct_all += d_correct
+        total_seen_all    += d_seen
+
+    overall_acc = total_correct_all / total_seen_all if total_seen_all > 0 else 0.0
+    acc_dict["all"] = overall_acc
+
+    # ---------- (C) 결과 저장(그래프 / CSV) ----------
+    save_dir = Path(save_dir)
+    save_dir.mkdir(parents=True, exist_ok=True)
+
+    if make_plots:
+        # 컬러맵 설정: 도메인 수만큼 색상이 달라야 하므로
+        domain_list = sorted(domain_info.keys())
+        n_dom = len(domain_list)
+        cmap = plt.cm.get_cmap('rainbow', n_dom)
+
+        # ----- (1) Batch Accuracy Transition: 한 장에 도메인별 다른 색으로 plot -----
+        fig_acc, ax_acc = plt.subplots(figsize=(6,4))
+        for i, dlabel in enumerate(domain_list):
+            info = domain_info[dlabel]
+            color = cmap(i)
+            ax_acc.plot(info["batch_idxs"], 
+                        np.array(info["batch_accs"])*100.0, 
+                        label=f"{dlabel} ({acc_dict[dlabel]*100:.2f}%)",
+                        color=color, marker='o', markersize=3, linewidth=1)
+
+        ax_acc.set_ylim(0, 105)
+        ax_acc.set_xlabel("Batch Index")
+        ax_acc.set_ylabel("Accuracy (%)")
+        ax_acc.set_title("Domain-wise Batch Accuracy Transition")
+        ax_acc.legend(fontsize=8, loc="lower left", bbox_to_anchor=(1.0, 0))
+        fig_acc.tight_layout()
+        fig_acc.savefig(save_dir / "domain_batch_accuracy.jpg", dpi=300)
+        plt.close(fig_acc)
+
+        # ----- (2) pseudo-label 분포 (scatter) -----
+        fig_pred, ax_pred = plt.subplots(figsize=(6,4))
+        for i, dlabel in enumerate(domain_list):
+            color = cmap(i)
+            # 해당 도메인만 필터
+            idxs = [idx for idx, dl in enumerate(all_data["domain_label"]) if dl == dlabel]
+            x = [all_data["iteration"][j] for j in idxs]
+            y = [all_data["predicted_class"][j] for j in idxs]
+            ax_pred.scatter(x, y, s=4, alpha=0.6, label=dlabel, color=color)
+        ax_pred.set_xlabel("Batch Index")
+        ax_pred.set_ylabel("Predicted Class")
+        ax_pred.set_title("Pseudo‑Label Distribution (color by domain)")
+        ax_pred.legend(fontsize=8, loc="lower left", bbox_to_anchor=(1.0, 0))
+        fig_pred.tight_layout()
+        fig_pred.savefig(save_dir / "pseudo_label_scatter.jpg", dpi=300)
+        plt.close(fig_pred)
+
+        # ----- (3) ground-truth 분포 (scatter) -----
+        fig_gt, ax_gt = plt.subplots(figsize=(6,4))
+        for i, dlabel in enumerate(domain_list):
+            color = cmap(i)
+            # 해당 도메인만 필터
+            idxs = [idx for idx, dl in enumerate(all_data["domain_label"]) if dl == dlabel]
+            x = [all_data["iteration"][j] for j in idxs]
+            y = [all_data["ground_truth_class"][j] for j in idxs]
+            ax_gt.scatter(x, y, s=4, alpha=0.6, label=dlabel, color=color)
+        ax_gt.set_xlabel("Batch Index")
+        ax_gt.set_ylabel("Ground‑Truth Class")
+        ax_gt.set_title("Ground‑Truth Class Distribution (color by domain)")
+        ax_gt.legend(fontsize=8, loc="lower left", bbox_to_anchor=(1.0, 0))
+        fig_gt.tight_layout()
+        fig_gt.savefig(save_dir / "ground_truth_scatter.jpg", dpi=300)
+        plt.close(fig_gt)
+
+    # ----- (4) CSV (모든 샘플) 저장 -----
+    # 각 샘플의 iteration, predicted_class, ground_truth_class, domain_label
+    df = pd.DataFrame(all_data)
+    df.to_csv(save_dir / "all_samples.csv", index=False)
+
+    #  ----- (D) 결과 반환: domain별 acc + 전체 acc -----
+    # acc_dict["domainA0"] -> 0.79, acc_dict["domainB2"] -> 0.63, ...
+    # acc_dict["all"] -> 0.72
+    return acc_dict
+
+
+
 
 
 

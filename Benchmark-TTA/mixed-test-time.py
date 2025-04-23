@@ -7,7 +7,7 @@ import numpy as np
 from src.data import load_mixed_dataset
 from src.methods import *
 from src.models.load_model import load_model
-from src.utils import get_accuracy, get_args, get_accuracy_with_figure
+from src.utils import get_accuracy, get_args, get_accuracy_with_figure, get_mixed_accuracy_with_figure
 from src.utils.conf import cfg, load_cfg_fom_args, get_num_classes, get_domain_sequence
 
 logger = logging.getLogger(__name__)
@@ -76,67 +76,47 @@ def evaluate(cfg):
 
     accs = []
 
-    breakpoint()
-
+    try:
+        model.reset()
+        logger.info("resetting model")
+    except:
+        logger.warning("not resetting model")
     mixedset, mixed_loader = load_mixed_dataset(
-        cfg.CORRUPTION_DATASET,
+        cfg.CORRUPTION.DATASET,
         cfg.DATA_DIR,
         cfg.TEST.BATCH_SIZE,
         split='all',
-        dom_names_loop = dom_names_loop,
+        domain_names_loop=dom_names_loop,
         severities = severities,
-        workers=min(cfg.TEST.NUM_WORKERS),
+        workers=min(cfg.TEST.NUM_WORKERS, os.cpu_count()),
         ckpt=os.path.join(cfg.CKPT_DIR, 'Datasets'),
         num_aug=cfg.TEST.N_AUGMENTATIONS,
         # 여기서 부터는 mxied_dataset을 위한 config
         imbalance_ratio=cfg.TEST.IMBALANCE_RATIO
     )
-    # start evaluation
-    for i_dom, domain_name in enumerate(dom_names_loop):
-        try:
-            model.reset()
-            logger.info("resetting model")
-        except:
-            logger.warning("not resetting model")
-
-        for severity in severities:
-            testset, test_loader = load_dataset(cfg.CORRUPTION.DATASET, cfg.DATA_DIR,
-                                                cfg.TEST.BATCH_SIZE,
-                                                split='all', domain=domain_name, level=severity,
-                                                adaptation=cfg.MODEL.ADAPTATION,
-                                                workers=min(cfg.TEST.NUM_WORKERS, os.cpu_count()),
-                                                ckpt=os.path.join(cfg.CKPT_DIR, 'Datasets'),
-                                                num_aug=cfg.TEST.N_AUGMENTATIONS)
-
-    # 여기서 짤라야할 듯?
-
-
-            for epoch in range(cfg.TEST.EPOCH):
-                # bscho가 만듦
-                from pathlib import Path
-                log_path = Path(cfg.OUTPUT) / cfg.LOG_DEST
-                log_dir = log_path.with_suffix("")
-                log_dir.mkdir(parents=True, exist_ok=True)
-
-                test_loader.name = f"{cfg.CORRUPTION.DATASET}-{domain_name}{severity}"
+    for epoch in range(cfg.TEST.EPOCH):
+        # bscho가 만듦
+        from pathlib import Path
+        log_path = Path(cfg.OUTPUT) / cfg.LOG_DEST
+        log_dir = log_path.with_suffix("")
+        log_dir.mkdir(parents=True, exist_ok=True)
                 
-                # 다시 원래 코드 (이 부분도 바꿔야할 듯?)
-                acc = get_accuracy_with_figure(
-                    model=model,
-                    data_loader=test_loader,
-                    domain_name = domain_name,
-                    severity=severity,
-                    save_dir=log_dir,
-                    make_plots=True)
-                if cfg.TEST.EPOCH > 1:
-                    print(f"epoch: {epoch}, acc: {acc:.2%}")
-                    # logger.info(f"epoch: {epoch}, acc: {acc:.2%}")
-
+        # 다시 원래 코드 (이 부분도 바꿔야할 듯?)
+        acc = get_mixed_accuracy_with_figure(
+            model=model,
+            data_loader=mixed_loader,
+            # domain_names_loop=dom_names_loop,
+            # severities=severities,
+            save_dir=log_dir,
+            make_plots=True)
+        if cfg.TEST.EPOCH > 1:
+            print(f"epoch: {epoch}, acc: {acc:.2%}")
+            # logger.info(f"epoch: {epoch}, acc: {acc:.2%}")
 
             accs.append(acc)
 
-            logger.info(
-                f"{cfg.CORRUPTION.DATASET} accuracy % [{domain_name}{severity}][#samples={len(testset)}]: {acc:.2%}")
+            # logger.info(
+            #     f"{cfg.CORRUPTION.DATASET} accuracy % [{domain_name}{severity}][#samples={len(testset)}]: {acc:.2%}")
 
         logger.info(f"mean accuracy: {np.mean(accs):.2%}")
     return accs
