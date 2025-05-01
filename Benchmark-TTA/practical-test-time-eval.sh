@@ -1,12 +1,10 @@
 METHODS=(
+  "source"
   "tent"
+  "cotta"
+  "lame"
   "eata"
   "sar"
-  "t3a"
-  "source"
-  "lame"
-  "norm"
-  "cotta"
   "rotta"
   "deyo"
   "tent_come"
@@ -22,7 +20,7 @@ DATASETS=(
   "imagenet_c_vit"
   "imagenet_convnet"
 )
-GPU_id=0
+GPU_id=2
 
 for METHOD in "${METHODS[@]}"; do
   for DATASET in "${DATASETS[@]}"; do

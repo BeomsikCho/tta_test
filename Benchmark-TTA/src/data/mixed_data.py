@@ -71,7 +71,7 @@ def load_mixed_dataset(dataset: str,
     for i_dom, domain_name in enumerate(domain_names_loop):
         for severity in severities:
             # 기본 (img, label)을 반환하는 원본 Dataset
-            ds = load_dataset(
+            ds, dl = load_dataset(
                 dataset=dataset,
                 root=root,
                 batch_size=batch_size,
